@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Provide the vehicle registration number
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_beta.html" %}
+    {% include "includes/buttons/back.html" %}
+
+    <div class="grid-row no-bottom">
+        <div class="column-two-thirds no-bottom">
+
+            <h1 class="heading-large margin-bottom-1">Provide the vehicle registration number</h1>
+            <form class="form">
+                <div class="form-group no-bottom" style="margin-bottom:15px;">
+                    <fieldset>
+                        <div class="form-group" id="qVRN">
+                            <label class="form-label" for="VRN">
+                                Vehicle registration number (number plate)
+                                <span class="form-hint">For example, CU57 ABC</span>
+                                <span class="VRN error-message" style="display: none;">Provide a valid vehicle registration number (number plate)</span>
+                            </label>
+                            <input class="form-control form-control-1-4" id="VRN" type="text" name="VRN" value="">
+                        </div>
+                        {{ button.input(id='continue', name='continue', class='button', type='button', value='Continue') }}
+                    </fieldset>
+                </div><!--  end .form-group  -->
+            </form>
+        </div><!--  end column-two-thirds  -->
+    </div><!--  end gridrow  -->
+</main>
+<script type="text/javascript">
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+    // Check if user has been sent back from summary page
+    var changing = location.search.split('change=')[1];
+    if (changing === 'true') {
+        $('.button-back').hide();
+    }
+    function validate() {
+        var validInput = true;
+
+        var VRN = $('input[name=VRN]').val();
+        if ((VRN == '') || (VRN == undefined)) {
+            $('#qVRN').addClass('form-group-error');
+            $('.VRN.error-message').show();
+            validInput = false;
+        }
+
+        if ((validInput) && (changing === "true")) {
+            member.vehicle.VRN = VRN;
+            go('/DVLA/check-your-answers');
+        } else if (validInput) {
+            member.vehicle.VRN = VRN;
+            go('/DVLA/address');
+        }
+    }
+</script>
+{% endblock %}

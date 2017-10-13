@@ -1,0 +1,310 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Confirm your answers before submitting your application
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_beta.html" %}
+    {% include "includes/buttons/back.html" %}
+    <div class="grid-row">
+        <div class="column-full">
+            <h1 class="heading-large">Confirm your answers</h1>
+            <p>If you change a response, you may have to re-answer some questions</p>
+
+            <h2 class="heading-medium margin-top-2">Questions answered</h2>
+
+            <!--we add an id on the container div so that we only show this data if the advanced route was taken - if you don't have branches that require this then this container div is not necessary-->
+            <div id="advanced-route" class="visuallyhidden">
+
+                <ul class="list-summary margin-bottom-2">
+
+                    <li class="list-summary-item">
+                        <span>Which patterns do you want to see?</span>
+                        <span><strong><span class="basic-binary"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/basic-binary?change=true">Change <span class="visuallyhidden">which patterns you want to see</span></a></span>
+                    </li>
+
+                    <li class="list-summary-item">
+                        <span>Do you want an email receipt?</span>
+                        <span><strong><span id="email-choice" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/advanced-path/advanced-radio-disclosure?change=true">Change <span class="visuallyhidden">email receipt choice</span></a></span>
+                    </li>   
+
+                    <li class="list-summary-item email">
+                        <span>Email address</span>
+                        <span><strong><span id="email-address" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/advanced-path/advanced-radio-disclosure?change=true">Change <span class="visuallyhidden">email address</span></a></span>
+                    </li> 
+                    
+                    <li class="list-summary-item">
+                        <span>Vehicle make</span>
+                        <span><strong><span id="make" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/advanced-path/advanced-dynamic-autocomplete-1?change=true">Change <span class="visuallyhidden">vehicle make</span></a></span>
+                    </li> 
+                    
+                    <li class="list-summary-item">
+                        <span>Vehicle model</span>
+                        <span><strong><span id="model" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/advanced-path/advanced-dynamic-autocomplete-2?change=true">Change <span class="visuallyhidden">vehicle model</span></a></span>
+                    </li>
+                    
+                    <li class="list-summary-item">
+                        <span>Fuel Type</span>
+                        <span><strong><span id="fuelType" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/advanced-path/advanced-dynamic-radio-1?change=true">Change <span class="visuallyhidden">fuel type</span></a></span>
+                    </li> 
+
+                    <li class="list-summary-item">
+                        <span>Tax class</span>
+                        <span><strong><span id="taxClass" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/advanced-path/advanced-dynamic-radio-2?change=true">Change <span class="visuallyhidden">tax class</span></a></span>
+                    </li>
+                    
+                    <li class="list-summary-item">
+                        <span>Address</span>
+                        <span><strong><span id="address" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right">
+                            <a class="button-change" href="/DVLA/advanced-path/postcode-finder/address-find?change=true">Change <span class="visuallyhidden">address</span></a>
+                        </span>
+                    </li>
+
+                </ul>
+                
+                <h2 class="heading-medium">Progress update options</h2>
+                <ul class="list-summary margin-bottom-2">
+
+                    <li class="list-summary-item byText">
+                        <span>By text</span>
+                        <span><strong><span id="byText"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/checkbox-disclosure?change=true">Change <span class="visuallyhidden">the mobile number you want to be sent text updates to</span></a></span>
+                    </li>
+
+                    <li class="list-summary-item byEmail">
+                        <span>By email</span>
+                        <span><strong><span id="byEmail" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/checkbox-disclosure?change=true">Change <span class="visuallyhidden">the email address you want to be sent email updates to</span></a></span>
+                    </li>   
+
+                    <li class="list-summary-item byPost">
+                        <span>By post</span>
+                        <span><strong><span id="byPost" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/checkbox-disclosure?change=true">Change <span class="visuallyhidden">the address you want to be sent postal updates to</span></a></span>
+                    </li> 
+
+                </ul>
+
+
+            </div>
+
+            <!--we add an id on the container div so that we only show this data if the basic route was taken - if you don't have branches that require this then this container div is not necessary-->
+            <div id="basic-route" class="visuallyhidden">
+
+                <ul class="list-summary margin-bottom-2">
+
+                    <li class="list-summary-item">
+                        <span>Which patterns do you want to see?</span>
+                        <span><strong><span class="basic-binary"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/basic-binary?change=true">Change <span class="visuallyhidden">which patterns you want to see</span></a></span>
+                    </li>
+
+                    <li class="list-summary-item">
+                        <span>Basic input (pets name)</span>
+                        <span><strong><span id="basic-input" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/basic-path/basic-input?change=true">Change <span class="visuallyhidden">basic input</span></a></span>
+                    </li>   
+
+                    <li class="list-summary-item">
+                        <span>Basic autocomplete (team member's name)</span>
+                        <span><strong><span id="auto-complete" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/basic-path/basic-autocomplete?change=true">Change <span class="visuallyhidden">team member name</span></a></span>
+                    </li>
+
+                    <li class="list-summary-item">
+                        <span>What do you enjoy most about Interaction design?</span>
+                        <span><strong><span id="enjoy-most" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/basic-path/basic-multiple-choice-radio?change=true">Change <span class="visuallyhidden">team member name</span></a></span>
+                    </li>
+
+                    <li class="list-summary-item">
+                        <span>Which pill do you want to take?</span>
+                        <span><strong><span id="pill" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/basic-path/basic-radio-disclosure?change=true">Change <span class="visuallyhidden">which pill you want to take</span></a></span>
+                    </li>
+
+                    <li id="code-1" class="list-summary-item">
+                        <span>Code</span>
+                        <span><strong><span id="codeA" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/basic-path/basic-radio-disclosure?change=true">Change <span class="visuallyhidden">code</span></a></span>
+                    </li>
+
+                    <li id="code-2" class="list-summary-item">
+                        <span>Code</span>
+                        <span><strong><span id="codeB" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/basic-path/basic-radio-disclosure?change=true">Change <span class="visuallyhidden">code</span></a></span>
+                    </li>
+
+                    <li class="list-summary-item">
+                        <span>What software do you use at work?</span>
+                        <span><strong><span id="software" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/basic-path/basic-multiple-choice-checkbox?change=true">Change <span class="visuallyhidden">the software you use</span></a></span>
+                    </li>
+
+                    <li class="list-summary-item">
+                        <span>Uploaded file</span>
+                        <span><strong><span id="uploaded-file" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/DVLA/basic-path/basic-upload?change=true">Change <span class="visuallyhidden">the file you've uploaded</span></a></span>
+                    </li>
+
+                    <li class="list-summary-item">
+                        <span>Address</span>
+                        <span><strong><span id="address1" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right">
+                            <a class="button-change" href="/DVLA/basic-path/basic-postcode-package?change=true">Change <span class="visuallyhidden">address</span></a>
+                        </span>
+                    </li>
+
+                </ul> 
+            </div>
+            {{ button.input(id='continue', name='continue', class='button', type='button', value='Confirm') }}
+        </div>
+    </div>
+</main>
+
+<script type="text/javascript">
+    //it's important to know that the way i turn on and off content on this page would only be useful if you have branching paths that differ from one another. 
+    
+    //If your prototype doesn't have different paths remove both if statements and the lines underneath (lines 164, 165, 192 & 193)
+    
+    //here we are using an if statement to only show the data we entered on the advanced path
+    if (member.questions.binary === 'Advanced patterns') {
+        $('#advanced-route').removeClass('visuallyhidden');
+        
+        // Basic binary
+        $('.basic-binary').html(member.questions.binary);
+
+        // Advanced radio disclosure
+        $('#email-choice').html(member.questions.emailChoice);
+        
+        //if an email address wasn't entered we remove this table row
+        if  (!member.questions.email) {
+            $('.email').remove();
+        }
+
+        $('#email-address').html(member.questions.email);
+        
+        // Dynamic autocomplete
+        $('#make').html(member.questions.make);
+        $('#model').html(member.questions.model);
+        
+        //dynamic radio buttons
+        $('#fuelType').html(member.questions.fuelType);
+        $('#taxClass').html(member.questions.taxClass);
+        
+        // Address  
+        $('#address').html(member.questions.address);
+        
+        //Update options
+        
+        //if a mobile number wasn't entered we remove this table row
+        if  (!member.questions.contactChoice.text) {
+            $('.byText').remove();
+        }
+        
+        // By text  
+        $('#byText').html(member.questions.contactChoice.text);
+        
+        //if an email address wasn't entered we remove this table row
+        if  (!member.questions.contactChoice.email) {
+            $('.byEmail').remove();
+        }
+        
+        // By email 
+        $('#byEmail').html(member.questions.contactChoice.email);
+        
+        //if an address wasn't entered we remove this table row
+        if  (!member.questions.contactChoice.post) {
+            $('.byPost').remove();
+        }
+        
+        // By post  
+        $('#byPost').html(member.questions.contactChoice.post);
+    }
+
+    //then we use an if statement for the basic path to only show the data entered
+    else if (member.questions.binary === 'Basic patterns') {
+        $('#basic-route').removeClass('visuallyhidden');
+        
+        // Basic binary
+        $('.basic-binary').html(member.questions.binary);
+        
+        // Basic input
+        $('#basic-input').html(member.questions.input1);
+
+        // Autocomplete  
+        $('#auto-complete').html(member.questions.teamMember);
+
+        // Basic radio disclosure 
+        $('#pill').html(member.questions.pill);
+
+        // Code A 
+        $('#codeA').html(member.questions.code);
+
+        if (!member.questions.code){
+            $('#code-1').remove();
+        }
+
+        // Code B 
+        $('#codeB').html(member.questions.code2); 
+
+        if (!member.questions.code2){
+            $('#code-2').remove();
+        }
+
+        // Enjoy most  
+        $('#enjoy-most').html(member.questions.enjoyMost);
+
+        // Software used
+        // this bit is quite clever, it adds a comma and a space after each software option checked. Howevr, it will always add an 'and' and a space if its the last option. This helps the readability which is great for accessibility.
+        var software = "";
+        for (var i = 0; i < member.questions.software.length; ++i) {
+            if (i === member.questions.software.length - 2) {
+                software += member.questions.software[i] + ' and ';
+            } else if (i === member.questions.software.length - 1) {
+                software += member.questions.software[i];
+            } else {
+                software += member.questions.software[i] + ", ";
+            }
+
+        }
+
+        $('#software').html(software);
+
+        // Uploaded file
+        $('#uploaded-file').html(member.questions.upload);
+
+        // Address  
+        $('#address1').html(member.questions.address1);
+
+    }
+
+    //we define the function of a button to trigger 'next'
+    $(".button").click(function(){
+        // Enter function name here
+        next();
+    });
+
+    //then we define the function of next to route to the next page
+    function next() {        
+        go('/DVLA/success');
+    }
+</script>
+{% endblock %}

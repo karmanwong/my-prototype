@@ -1,0 +1,165 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Advanced postcode package finder
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+<style type="text/css">
+    input#postcode { text-transform: uppercase; }
+</style>
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main" tabindex="-1">
+    {% include "includes/phase_banner_beta.html" %}
+    {% include "includes/buttons/back.html" %}
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <div class="error-summary" role="group" aria-labelledby="error-summary-heading" tabindex="-1">
+                <h1 class="heading-medium error-summary-heading" id="error-summary-heading">There’s a problem with the information you have provided</h1>
+
+                <p>Please amend the following details:</p>
+                <ul class="error-summary-list">
+<!--                    <li class="address1 error-message"><a href="#qaddress">Provide your new house number/name and street</a></li>-->
+                    <li class="postcode error-message"><a href="#qpostcode">Provide a valid postcode</a></li>
+<!--                    <li class="postcode error-message format"><a href="#qpostcode">Provide correct postcode format</a></li>-->
+                </ul>
+            </div>
+
+            <h1 class="heading-large">Advanced postcode package finder</h1>
+
+            <form class="form">
+                <div class="form-group">
+                    <fieldset>
+                        <h2 class="heading-medium">Find your address</h2>
+                        <legend class="visuallyhidden">Find your address</legend>
+
+                        <div class="form-group" id="qaddress">
+                            <label class="form-label" for="number">
+                                House name or number (optional)
+                                <span class="form-hint"></span>
+                                <span class="address1 error-message">
+                                    Provide your new house number/name and street
+                                </span>
+                            </label>
+                            <input spellcheck="false" class="form-control form-control-1-4" id="number" name="number" type="text" value="">
+                        </div>
+                        <div class="form-group" id="qpostcode">
+                            <label class="form-label" for="postcode">
+                                Postcode
+                                <span class="form-hint"></span>
+                                <span class="postcode error-message">
+                                    Provide a valid postcode
+                                </span>
+<!--
+                                <span class="postcode format error-message">
+                                    Provide correct postcode format
+                                </span>
+-->
+                            </label>
+                            <input spellcheck="false" class="form-control form-control-1-4" id="postcode" name="postcode" type="text" value="">
+                        </div>
+
+                    </fieldset>
+                    {{ button.input(id='continue', name='continue', class='button', type='button', value='Find UK address') }}
+                </div>
+                <!--  end .form-group  -->
+            </form>
+        </div>
+        <!--  end column-two-thirds  -->
+    </div>
+    <!--  end gridrow  -->
+</main>
+<!--
+122 Burns Crescent
+Edinburgh
+EH1 9GP
+-->
+
+<script type="text/javascript">
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+    
+    function validate() {
+        var question = "Address";
+        var validInput = true;
+        var request = '?';
+
+        // Hide before rechecking validation
+        $('.address1.error-message').hide();
+        $('#qaddress').removeClass('form-group-error error');
+        $('#qpostcode').removeClass('form-group-error error');
+        $('.postcode.format.error-message').hide();
+
+        var postcode = $('input[name=postcode]').val();
+        if ((postcode == '') || (postcode == undefined)) {
+            $('#qpostcode').addClass('form-group-error error');
+            $('.postcode.error-message').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            validInput = false;
+        } else {
+            request += "postcode=" + postcode;
+        }
+        
+        // Postcode format
+//        var postcodeFormat = /^[A-Z]{1,2}[0-9]{1,2}\s?[0-9]{1}[A-Z]{2}$/;
+//
+//        if ((postcode == '') || (postcode == undefined)) {
+//            $('#qpostcode').addClass('form-group-error error');
+//            $('.postcode.error-message').show();
+//            $('.postcode.error-message.format').hide();
+//            $('.error-summary').show();
+//            $('body').scrollTop(0);
+//            validInput = false;
+//        } else if (postcodeFormat.test(postcode) === false) {
+//            $('#qpostcode').addClass('form-group-error error');
+//            $('.postcode.error-message').hide();
+//            $('.postcode.format.error-message').show();
+//            $('.error-summary').show();
+//            $('body').scrollTop(0);
+//            validInput = false;
+//        } else {
+//            request += "postcode=" + postcode;
+//        }
+
+        var number = $('input[name=number]').val();
+        if ((number == '') || (number == undefined)) {
+            // Do nothing
+        } else {
+            request += "&number=" + number;
+        }
+
+
+        if (validInput) {
+            // Create a playback string
+            $.getJSON('/api/address-lookup' + encodeURI(request), function(addresses) {
+                member.addresses = addresses;
+
+                if (member.addresses.length === 1) {
+                    // Load address into fields and allow to manually edit
+                    member.address = member.addresses[0];
+                    go('address-confirmation');
+                } else if (member.addresses.length > 1) {
+                    // Show list of addresses
+                    go('address-list');
+                } else {
+                    // No results, enter manually
+                    go('address-manual');
+                }
+                console.log(addresses);
+            });
+
+
+            //next();
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Provide the address where the chargepoint will be installed
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_beta.html" %}
+    {% include "includes/buttons/back.html" %}
+    
+    <div class="grid-row no-bottom">
+        <div class="column-two-thirds no-bottom">
+            <div class="error-summary" role="group" aria-labelledby="error-summary-heading" tabindex="-1" style="display: none">
+                <h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
+
+                <p>Please amend the following details:</p>
+                <ul class="error-summary-list">
+                    <li class="qaddress error-message"><a href="#address">Provide an address</a></li>
+
+                    <li class="qpostCode error-message"><a href="#postCode">Provide a postcode</a></li>
+                </ul>
+            </div>
+            <h1 class="heading-large">Provide the address where the chargepoint will be installed</h1>
+            
+            <div class="notice margin-bottom-2 margin-top-2">
+                <i class="icon icon-important">
+                    <span class="visually-hidden">Warning</span>
+                </i>
+                <strong class="bold-small">
+                    The installation address must have designated private off-street parking with good access for an eligible vehicle to be charged safely.
+                </strong>
+            </div>
+            
+            <form class="form">
+                <div class="form-group no-bottom">
+                    <fieldset>
+                        <legend class="visuallyhidden">Address</legend>
+                        <div class="form-group" id="qaddress">
+                            <label class="form-label" for="address">
+                                Installation address
+                                <span class="address error-message" style="display: none;"><br>Provide an address</span>
+                            </label>
+                            <input class="form-control form-control-3-4 margin-bottom-1" id="address" name="address" type="text" value="">
+                            <input class="form-control form-control-3-4 margin-bottom-1" id="address2" name="address2" type="text" value="">
+                            <input class="form-control form-control-3-4 margin-bottom-1" id="address3" name="address3" type="text" value="">
+                            <input class="form-control form-control-3-4 margin-bottom-1" id="address4" name="address4" type="text" value="">
+                            <input class="form-control form-control-3-4 margin-bottom-1" id="address5" name="address5" type="text" value="">
+                        </div>
+                        <div class="form-group" id="qpostCode">
+                            <label class="form-label" for="postCode">
+                                Postcode
+                                <span class="error-postCode error-message" style="display: none;"><br>Provide a postcode</span>
+                            </label>
+                            <input class="form-control form-control-1-4" id="postCode" type="text" name="postCode" value="">
+                        </div>
+                        {{ button.input(id='continue', name='continue', class='button', type='button', value='Continue') }}
+                    </fieldset>
+                </div><!--  end .form-group  -->
+            </form>
+        </div><!--  end column-two-thirds  -->
+    </div><!--  end gridrow  -->
+</main>
+<script type="text/javascript">
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+    
+    // Check if user has been sent back from summary page
+    var changing = location.search.split('change=')[1];
+    if (changing === 'true') {
+        $('.button-back').hide();
+    }
+    
+    function validate() {
+        
+        if (member.customer === undefined) {
+            member.customer = {};
+        }
+        
+        var validInput = true;
+        $('.address.error-message').hide();
+        $('#qaddress').removeClass('form-group-error');
+        $('.error-postCode.error-message').hide();
+        $('#postCode').removeClass('form-group-error');
+
+        var street = $('input[id=address]').val();
+        if ((street == '') || (street == undefined)) {
+            $('#qaddress').addClass('form-group-error');
+            $('.address.error-message').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            validInput = false;
+        }
+
+        var street2 = $('input[id=address2]').val();
+//        if ((street2 == '') || (street2 == undefined)) {
+//            $('#qaddress').addClass('form-group-error');
+//            $('.address.error-message').show();
+//            $('.error-summary').show();
+//            $('body').scrollTop(0);
+//            validInput = false;
+//        }
+//        
+        var street3 = $('input[id=address3]').val();
+//        if ((street3 == '') || (street3 == undefined)) {
+//            $('#qaddress').addClass('form-group-error');
+//            $('.address.error-message').show();
+//            $('.error-summary').show();
+//            $('body').scrollTop(0);
+//            validInput = false;
+//        }
+//
+        var street4 = $('input[id=address4]').val();
+//        if ((street == '') || (street == undefined)) {
+//            $('#qaddress').addClass('form-group-error');
+//            $('.address.error-message').show();
+//            $('.error-summary').show();
+//            $('body').scrollTop(0);
+//            validInput = false;
+//        }
+//        
+        var street5 = $('input[id=address5]').val();
+//        if ((street == '') || (street == undefined)) {
+//            $('#qaddress').addClass('form-group-error');
+//            $('.address.error-message').show();
+//            $('.error-summary').show();
+//            $('body').scrollTop(0);
+//            validInput = false;
+//        }
+        
+        var postCode = $('input[name=postCode]').val();
+        if ((postCode == '') || (postCode == undefined)) {
+            $('#qpostCode').addClass('form-group-error');
+            $('.error-postCode.error-message').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            validInput = false;
+        }
+        
+        if (validInput) {
+            var address = street + "<br>";
+            if (street2 && street2.length>0 )
+                address += street2+"<br>";
+            if (street3 && street3.length>0 )
+                address += street3+"<br>";
+            if (street4 && street4.length>0 )
+                address += street4+"<br>";
+            if (street5 && street5.length>0 )
+                address += street5+"<br>";
+            address += postCode;
+            
+            member.customer.address = address; 
+        }
+        
+        if ((validInput) && (postCode === 'ABC123')) {
+            go('/DVLA/chargepoint-detected');
+        } else if ((validInput) && (postCode === '123ABC')) {
+            go('/DVLA/dnq-address');
+        } else if ((validInput) && (changing === "true")) {
+            go('/DVLA/check-your-answers');
+        } else if (validInput) {  
+            go('/DVLA/name');
+        }
+        
+    }
+</script>
+{% endblock %}

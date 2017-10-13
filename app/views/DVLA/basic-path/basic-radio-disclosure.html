@@ -1,0 +1,204 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Basic radio progressive disclosure
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_alpha.html" %}
+    {% include "includes/buttons/back.html" %}
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <div class="error-summary" role="group" aria-labelledby="error-summary-heading" tabindex="-1" style="display: none">
+                <h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
+
+                <p>Please amend the following details:</p>
+                <ul class="error-summary-list">
+                    <li class="error-message a"><a href="#whichPill-blue">Select an option</a></li>
+
+                    <li class="error-message b"><a href="#Code">Provide a code</a></li>
+                    
+                    <li class="error-message c"><a href="#Code2">Provide a code</a></li>
+                </ul>
+            </div>
+
+            <h1 class="heading-large">Basic radio progressive disclosure</h1>
+
+            <form class="form">
+                <h2 class="heading-medium">Which pill do you want to take?</h2>
+
+                <div class="form-group" id="question1">
+                    <span class="error-message a">
+                        Select an option
+                    </span>
+                    <fieldset class="inline">
+
+                        <legend class="visually-hidden">Which pill do you want to take?</legend>
+
+                        <div class="multiple-choice">
+                            <input id="whichPill-blue" type="radio" name="whichPill" value="Blue pill">
+                            <label class="block-label" for="whichPill-blue" id="whichPill-blue-label">Blue pill</label>
+                        </div>
+                        <div class="multiple-choice">
+                            <input id="whichPill-red" type="radio" name="whichPill" value="Red pill">
+                            <label class="block-label" for="whichPill-red" id="whichPill-red-label">Red pill</label>
+                        </div>
+
+                        <div id="whichPillA" class="panel panel-border-narrow" style="display: none;">
+
+                            <div class="form-group" id="qCode">
+                                <label class="form-label" for="Code">Code A</label>
+                                <span class="form-hint">
+                                    For example, MATRIX
+                                </span>
+                                <span class="error-message b">
+                                    Provide a code<br>
+                                </span>
+                                <input class="form-control" id="Code" name="Code" type="text" value="">
+                            </div>
+                        </div>
+
+
+                        <div id="whichPillB" class="panel panel-border-narrow" style="display: none;">
+                            <div class="form-group" id="qCode2">
+                                <label class="form-label" for="Code2">Code B</label>
+                                <span class="form-hint">
+                                    For example, NEO
+                                </span>
+                                <span class="error-message c">
+                                    Provide a code<br>
+                                </span>
+                                <input class="form-control" id="Code2" name="Code2" type="text" value="">
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                {{ button.input(id='continue', name='continue', class='button', type='button', value='Continue') }}
+
+            </form>
+        </div><!--  end .column-two-thirds  -->
+
+    </div><!--  end .grid-row  -->
+</main>
+
+<script type="text/javascript">
+    
+    //this is what triggers any validation - it translates to 'on clicking something with the class 'button' perform 'validate' - we then set a function called 'validate later which runs a series of conditions for it to check
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+
+    // this section is a bit hacky but it works perfectly for the system remembering if it's come from a check your answers page - when we come back to this page we want it to hide the back button - it looks to see if the url has '?change=true' at the end of it - this is important so that it can be re-routed back to the check your answers page
+    var changing = location.search.split('change=')[1];
+    if (changing === 'true') {
+        $('.button-back').hide();
+    }
+    
+    //so firstly we look for the input name and trigger something to occur when a change occurs - in this instance we're opening (show) or closing (hide) progressive disclosures
+    $("input[name='whichPill']").change(function() {
+        $('#question1').removeClass('form-group-error error');
+        $('.error-message.a').hide();
+        $('.error-summary').hide();
+
+        if ($(this).val() === 'Blue pill') {
+            $('#whichPillA').show();
+        } else {
+            $('#whichPillA').hide();
+        }
+        
+        if ($(this).val() === 'Red pill') {
+            $('#whichPillB').show();
+        } else {
+            $('#whichPillB').hide();
+        }
+    });
+
+    //this sets a function of 'validate' which runs through all the conditions set within it before either throwing up an error or letting it pass
+    function validate() {
+        //So, firstly we need to get our jquery to find the values of the radio button options
+        var value = $('input[name=whichPill]:checked').val();
+        //Now we set the default variable of valid input as true, this is important because we need to refer to it as false when an error occurs.
+        var validInput = true;
+
+        //Lets look at the first radion button and validate the input inside it, firstly we see if the value is 'Blue pill' and if it is member that value.
+        if (value === 'Blue pill') {
+            member.questions.pill = value;
+            //Now we set a variable which looks at the value you put in the input field
+            var code = $('input[name=Code]').val();
+            //if it's undefined throw up 'error b', but hide 'error a'.
+            if ((code == '') || (code == undefined)) {
+                $('#qCode').addClass('form-group-error error');
+                $('.error-message.b').show();
+                $('.error-message.a').hide();
+                $('.error-message.c').hide();
+                $('.error-summary').show();
+                $('body').scrollTop(0);
+                $('.error-summary').focus();
+                validInput = false;
+            //if it's not an error and it's a valid input it tells it to remove the error class and hide 'error b'. we then tell it to remember this code and forget the other code (just in case it came from the check your answers page)
+            } else if (validInput) {
+                $('.error-message.b').hide();
+                member.questions.code = code;
+                delete member.questions.code2;
+                //we tell it to use a function of 'next' which we'll define later
+                next();
+            }
+
+        } 
+        
+        //Lets look at the second radion button and validate the input inside it, firstly we see if the value is 'Red pill' and if it is member that value.
+        else if (value === 'Red pill') {
+            member.questions.pill = value;
+            //Now we set a variable which looks at the value you put in the input field
+            var code2 = $('input[name=Code2]').val();
+            //if it's undefined throw up 'error c', but hide 'error a'.
+            if ((code2 == '') || (code2 == undefined)) {
+                $('#qCode2').addClass('form-group-error error');
+                $('.error-message.c').show();
+                $('.error-message.a').hide();
+                $('.error-message.b').hide();
+                $('.error-summary').show();
+                $('body').scrollTop(0);
+                $('.error-summary').focus();
+                validInput = false;
+            //if it's not an error and it's a valid input it tells it to remove the error class and hide 'error b'. we then tell it to remember this code and forget the other code (just in case it came from the check your answers page)
+            } else if (validInput) {
+                $('.error-message.c').hide();
+                member.questions.code2 = code2;
+                delete member.questions.code;
+                //we tell it to use a function of 'next' which we'll define later
+                next();
+            }  
+        }   
+        //if Red or Blue pill weren't selected at all we tell it to add the error class and show the 'error a'
+        else {
+            $('#question1').addClass('form-group-error error');
+            $('.error-message.a').show();
+            $('.error-message.b').hide();
+            $('.error-message.c').hide();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            $('.error-summary').focus();
+        }
+    }
+
+    //we now just need to define what the function of 'next' is. It's simple it just says one of 2 things; if changing is true - go back to check your answers. Otherwise - go to the next page.
+    function next() {
+        if (changing == "true") {
+            go('/DVLA/check-your-answers');
+        } else {
+            go('/DVLA/basic-path/basic-multiple-choice-checkbox');
+        }
+    }
+</script>
+{% endblock %}

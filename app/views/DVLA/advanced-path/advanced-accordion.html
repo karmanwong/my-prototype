@@ -1,0 +1,298 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Accordions
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_alpha.html" %}
+    {% include "includes/buttons/back.html" %}
+
+    <div class="grid-row no-bottom">
+        <div class="column-full">
+            <h1 class="heading-large">Accordions</h1>
+
+            <div class="form-group">
+                <div class="accordion-with-descriptions">
+                    <div class="subsections js" data-module="accordion-with-descriptions">
+                        <div class="subsection-controls">
+                            
+                        </div>
+                        
+                        <div class="subsection-wrapper">
+                            <div id="0" class="subsection">
+                                <div class="subsection__header is_open">
+                                    <h2 class="subsection__title" style="padding-left: 0.1em;">
+                                        <button class="subsection__link" aria-expanded="false" aria-controls="subsection_content_0">
+                                            SECTION 1
+                                            <span class="status-incomplete">INCOMPLETE</span>
+                                        </button>
+                                    </h2><span class="subsection__icon"></span>
+                                </div>
+                                <div class="subsection__content js-hide">
+                                    <ul class="list-summary margin-bottom-1">
+                                        <li class="list-summary-item">
+                                            <span>Make:</span>
+                                            <span id="make">LTC</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Model</span>
+                                            <span id="model">TX5</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Purchase price:</span>
+                                            <span id="purchasePrice">£5,000.00</span><span class="list-summary-item-right">
+                                            <a class="button-change" href="#">Edit <span class="visuallyhidden">vehicle purchase price</span></a></span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Grant amount:</span>
+                                            <span id="grantAmount">£1,750.00</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Post grant price:</span>
+                                            <span id="postGrantPrice">£3,250.00</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>VIN:</span>
+                                            <span>-</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Registration number:</span>
+                                            <span>-</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Date of registration:</span>
+                                            <span>-</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Expected delivery date:</span>
+                                            <span id="deliveryDate">12 September 2017</span><span class="list-summary-item-right">
+                                            <a class="button-change" href="#">Edit <span class="visuallyhidden">expected delivery date</span></a></span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Licence plate number:</span>
+                                            <span>-</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Actual delivery date:</span>
+                                            <span>-</span>
+                                        </li>
+                                    </ul>
+                                    
+                                </div>
+                            </div>
+                        </div><!--  end subsection-wrapper  -->
+                        
+                        <div class="subsection-wrapper">
+                            <div id="0" class="subsection">
+                                <div class="subsection__header is_open">
+                                    <h2 class="subsection__title" style="padding-left: 0.1em;">
+                                        <button class="subsection__link" aria-expanded="false" aria-controls="subsection_content_0">
+                                            SECTION 2
+                                            <span class="status-complete">COMPLETE</span>
+                                        </button>
+                                    </h2><span class="subsection__icon"></span>
+                                </div>
+                                <div class="subsection__content js-hide">
+                                    <ul class="list-summary margin-bottom-1">
+                                        <li class="list-summary-item">
+                                            <span>Make:</span><span id="make">LTC</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Model</span><span id="model">TX5</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Purchase price:</span>
+                                            <span id="purchasePrice">£5,000.00</span>
+                                            <span class="list-summary-item-right">
+                                                <a class="button-change" href="#">Edit 
+                                            <span class="visuallyhidden">vehicle purchase price</span></a>
+                                            </span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Grant amount:</span>
+                                            <span id="grantAmount">£1,750.00</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Post grant price:</span>
+                                            <span id="postGrantPrice">£3,250.00</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>VIN:</span>
+                                            <span>-</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Registration number:</span>
+                                            <span>-</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Date of registration:</span>
+                                            <span>-</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Expected delivery date:</span>
+                                            <span id="deliveryDate">12 September 2017</span>
+                                            <span class="list-summary-item-right">
+                                                <a class="button-change" href="#">Edit 
+                                                <span class="visuallyhidden">expected delivery date</span></a></span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Licence plate number:</span>
+                                            <span>-</span>
+                                        </li>
+                                        <li class="list-summary-item">
+                                            <span>Actual delivery date:</span>
+                                            <span>-</span>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div><!--  end subsection-wrapper  -->
+                    </div><!--  end subsections  -->
+                </div><!--  accordion-with-descriptions  -->
+            </div>
+            {{ button.input(id='continue', petsName='continue', class='button', type='button', value='Continue') }}
+            
+        </div><!--  end column-two-thirds  -->
+    </div><!--  end gridrow  -->
+</main>
+<script type="text/javascript">
+
+    //this is what triggers any validation - it translates to 'on clicking something with the class 'button' perform 'validate' - we then set a function called 'validate later which runs a series of conditions for it to check
+    $(".button").click(function(){
+        // Enter function petsName here
+        validate();
+    });
+
+    function validate() {
+        go('/DVLA/advanced-path/postcode-finder/address-find');
+    }
+    
+    // indicate that js has worked
+    $('.subsections').addClass('js');
+
+    // insert the markup for the subsection-controls
+    $('.subsection-controls')
+        .append( '<button class="js-open-close" aria-expanded="false" aria-controls="subsection_content_0 subsection_content_1 subsection_content_2">Open all</button>' );
+
+    // insert the markup for the subsection-controls
+    $('.subsection__title').each(function(index) {
+        $( this ).wrapInner( '<button class="subsection__link" aria-expanded="false" aria-controls="subsection_content_' + index +'"></a>' );
+    });
+
+    // hide the content
+    $('.subsection__content')
+        .addClass( 'js-hide' );
+
+    // insert the subsection icon
+    $('.subsection__header')
+        .append( '<span class="subsection__icon"></span>' );
+
+    // add the toggle functionality individual sections
+    $('.subsection__header').on('click', function(e) {
+        toggleSection($(this).next());
+        toggleIcon($(this));
+        toggleState($(this).find('.subsection__link'));
+        return true;
+    });
+
+    $('.subsection__link').on('click', function(e) {
+        toggleSection($(this).parent().parent().next());
+        toggleIcon($(this).parent().parent());
+        toggleState($(this));
+        return false;
+    });
+
+    function toggleSection($node) {
+        if ($($node).hasClass('js-hide')) {
+            openSection($node);
+        } else {
+            closeSection($node);
+        }
+    }
+
+    function toggleIcon($node) {
+        if ($($node).hasClass('is-open')) {
+            $node.removeClass('is-open');
+        } else {
+            $node.addClass('is-open');
+        }
+    }
+
+    function toggleState($node) {
+        if ($($node).attr('aria-expanded') == "true") {
+            $node.attr("aria-expanded", "false");
+        } else {
+            $node.attr("aria-expanded", "true");
+        }
+    }
+
+    function openSection($node) {
+        $node.removeClass('js-hide');
+    }
+
+    function closeSection($node) {
+        $node.addClass('js-hide');
+    }
+
+    function showOpenIcon($node) {
+        $node.addClass('is-open');
+    }
+
+    function showCloseIcon($node) {
+        $node.removeClass('is-open');
+    }
+
+    function setExpandedState($node, state) {
+        $node.attr("aria-expanded", state);
+    }
+
+    // add the toggle functionality all sections
+    $('.js-open-close').on('click', function(e) {
+        var action = '';
+
+        // update button
+        if ($(this).text() == "Open all") {
+            $(this).text("Close all");
+            $(this).attr("aria-expanded", "true");
+            action = 'open';
+        } else {
+            $(this).text("Open all");
+            $(this).attr("aria-expanded", "false");
+            action = 'close';
+        }
+
+        // set aria-expanded on links
+        $('.subsection__link').each(function( index ) {
+            if (action == 'open') {
+                setExpandedState($(this), "true");
+            } else {
+                setExpandedState($(this), "false");
+            }
+        });
+
+        // show/hide content
+        $('.subsection__header').each(function( index ) {
+            if (action == 'open') {
+                openSection($(this).next());
+                showOpenIcon($(this));
+            } else {
+                closeSection($(this).next());
+                showCloseIcon($(this));
+            }
+        });
+
+        return false;
+    });
+
+</script>
+{% endblock %}

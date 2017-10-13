@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Provide the vehicle make
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+<script src="/public/javascripts/Autocomplete/jquery-ui.min.js"></script>
+<script src="/public/javascripts/Autocomplete/jquery.select-to-autocomplete.js"></script>
+<script src="/public/javascripts/Autocomplete/jquery-auto-complete.js"></script>
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+
+<main id="content" role="main">
+    {% include "includes/phase_banner_alpha.html" %}
+    {% include "includes/buttons/back.html" %}
+
+    <div class="grid-row no-bottom">
+        <div class="column-two-thirds no-bottom">
+            <div class="error-summary" role="group" aria-labelledby="error-summary-heading" tabindex="-1" style="display: none">
+                <h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
+
+                <p>Please amend the following details:</p>
+                <ul class="error-summary-list">
+                    <li class="error-message a"><a href="#autoComplete">Provide an eligible vehicle make</a></li>
+                </ul>
+            </div>
+
+            <h1 class="heading-large">Dynamic autocomplete (part 1)</h1>
+            <form class="form">
+                <div class="form-group margin-bottom-1">
+                    <fieldset>
+
+                        <div class="form-group" id="question1">
+                            <legend class="visuallyhidden">Make</legend>
+                            <label class="form-label" for="autoComplete">
+                                Vehicle make
+                                <span class="error-message a" style="display: none;"><br>Provide an eligible vehicle make</span>
+                            </label>
+                            <label for="dropdown" class="visuallyhidden">Choose a vehicle make</label>
+                            <!--This 'select' container is essentially a drop down menu that's been restyled to look like an input (clever eh?). Inside this container you put the list of possible options-->
+                            <select name="make" class="form-control" placeholder="" id="dropdown" autocorrect="off" autocomplete="off" copy-attributes-to-text-field="false" style="padding: 4px;">
+                                <optgroup style="font-size:18px;">
+                                    <option value="" selected="selected">Make</option>
+                                    <option value="Audi">Audi</option>
+                                    <option value="BD Otomotiv">BD Otomotiv</option>
+                                    <option value="BMW">BMW</option>
+                                    <option value="BYD">BYD</option>
+                                    <option value="Chevrolet">Chevrolet</option>
+                                    <option value="Citroen">Citroen</option>
+                                    <option value="Daimler Mercedes-Benz">Daimler Mercedes-Benz</option>
+                                    <option value="Ford">Ford</option>
+                                    <option value="Hyundai">Hyundai</option>
+                                    <option value="Kia">Kia</option>
+                                    <option value="Mahindra">Mahindra</option>
+                                    <option value="Mercedes">Mercedes</option>
+                                    <option value="Mercedes-Benz">Mercedes-Benz</option>
+                                    <option value="Mitsubishi">Mitsubishi</option>
+                                    <option value="MINI">MINI</option>
+                                    <option value="Nissan">Nissan</option>
+                                    <option value="Peugeot">Peugeot</option>
+                                    <option value="Porsche">Porsche</option>
+                                    <option value="Renault">Renault</option>
+                                    <option value="Smart">Smart</option>
+                                    <option value="Smith Electric">Smith Electric</option>
+                                    <option value="Tesla">Tesla</option>
+                                    <option value="Toyota">Toyota</option>
+                                    <option value="Vauxhall">Vauxhall</option>
+                                    <option value="Volkswagen">Volkswagen</option>
+                                    <option value="Volvo">Volvo</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                    </fieldset>
+                    
+                    {{ button.input(id='continue', name='continue', class='button', type='button', value='Continue') }}
+                </div><!--  end .form-group  -->
+            </form>
+        </div><!--  end column-two-thirds  -->
+    </div><!--  end gridrow  -->
+</main>
+
+<script type="text/javascript">
+    
+    //this is what triggers any validation - it translates to 'on clicking something with the class 'button' perform 'validate' - we then set a function called 'validate later which runs a series of conditions for it to check
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+
+    // this section is a bit hacky but it works perfectly for the system remembering if it's come from a check your answers page - when we come back to this page we want it to hide the back button - it looks to see if the url has '?change=true' at the end of it - this is important so that it can be re-routed, in this case, to the next autocomplete which is dependant on the value from this page.
+    var changing = location.search.split('change=')[1];
+    if (changing === 'true') {
+        $('.button-back').hide();
+    }
+
+    //this sets a function of 'validate' which runs through all the conditions set within it before either throwing up an error or letting it pass
+    function validate() {
+        //we set the default as a true valid input
+        var validInput = true;
+        //we then set a variable to look for the input value matching one of the options
+        var make = $('#dropdown').find(':selected').val();
+        
+        //if the input value is blank we show an error
+        if (make == '') {
+            $('#question1').addClass('form-group-error error');
+            $('error-message.a').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            $('.error-summary').focus();
+            validInput = false;
+        } 
+
+        //if changing is true and it's a valid input we tell it to member the new value and instead of routing back to the check your answers page we take it to the second autocomplete. This pages value is bound to the value selected on the next page so we add '?change=true' to the end of the url to use later
+        if ((validInput) && (changing === "true")) {
+            member.questions.make = make;
+            go('/DVLA/advanced-path/advanced-dynamic-autocomplete-2?change=true');
+        //if changing isn't true we tell it to simply go to the next page
+        } else if (validInput) {
+            member.questions.make = make;
+            go('/DVLA/advanced-path/advanced-dynamic-autocomplete-2');
+        }
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Provide your contact details
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_beta.html" %}
+    {% include "includes/buttons/back.html" %}
+    <div class="grid-row no-bottom">
+        <div class="column-two-thirds no-bottom">
+            <div class="error-summary" role="group" aria-labelledby="error-summary-heading" tabindex="-1" style="display: none">
+                <h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
+
+                <p>Please amend the following details:</p>
+                <ul class="error-summary-list">
+                    <li class="phoneNum error-message"><a href="#phoneNum">Provide a contact telephone number</a></li>
+
+                    <li class="emailAddress error-message b"><a href="#emailAddress">Provide your email address</a></li>
+
+                    <li class="emailAddressConfirm error-message c"><a href="#emailAddressConfirm">Provide confirmation of your email address</a></li>
+
+                    <li class="email error-message d"><a href="#email">The email addresses you have provided do not match</a></li>
+                </ul>
+            </div>
+            <h1 class="heading-large">Provide your contact details</h1>
+            <form class="form">
+                <div class="form-group">
+                    <fieldset>
+                        <div class="form-group" id="qphoneNum">
+                            <label class="form-label" for="phoneNum">
+                                Contact telephone number
+                                <span class="phoneNum error-message" style="display: none;"><br>Provide a contact telephone number</span>
+                            </label>
+                            <input class="form-control form-control-1-2" id="phoneNum" type="tel" name="phoneNum" value="">
+                        </div>
+
+
+                        <fieldset id="email" class="margin-bottom-1">
+                            <span class="email error-message d">
+                                The email addresses you have provided do not match<br>
+                            </span>
+                            <div class="form-group" id="qemailAddress">
+                                <label class="form-label" for="emailAddress">Email address</label>
+                                <span class="form-hint">This will only be used to send you the outcome of your application</span>
+                                <span class="error-message b">
+                                    Provide your email address<br>
+                                </span>
+                                <input class="form-control form-control-3-4" id="emailAddress" name="emailAddress" type="email" value="">
+                            </div>
+
+                            <div class="form-group margin-bottom-1" id="qemailAddressConfirm">
+                                <label class="form-label" for="emailAddressConfirm">Confirm your email address</label>
+                                <span class="error-message c">
+                                    Provide confirmation of your email address<br>
+                                </span>
+                                <input class="form-control form-control-3-4" id="emailAddressConfirm" name="emailAddressConfirm" type="email" value="">
+                            </div>
+                        </fieldset>
+                    </fieldset>
+                    {{ button.input(id='continue', name='continue', class='button', type='button', value='Continue') }}
+                </div><!--  end .form-group  -->
+            </form>
+        </div><!--  end column-two-thirds  -->
+    </div><!--  end gridrow  -->
+</main>
+
+<script type="text/javascript">
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+
+    // Check if user has been sent back from summary page
+    var changing = location.search.split('change=')[1];
+    if (changing === 'true') {
+        $('.button-back').hide();
+    }
+
+    function validate() {
+        var validInput = true;
+
+        $('.phoneNum.error-message').hide();
+        $('#qphoneNum').removeClass('form-group-error');
+        
+        $('.emailAddress.error-message').hide();
+        $('#qemailAddress').removeClass('form-group-error');
+
+        $('.emailAddressConfirm.error-message').hide();
+        $('#qemailAddressConfirm').removeClass('form-group-error');
+
+        $('.error-message').hide();
+        $('#qemail').removeClass('form-group-error');
+
+
+        var phoneNum = $('input[name=phoneNum]').val();
+        if ((phoneNum == '') || (phoneNum == undefined)) {
+            $('#qphoneNum').addClass('form-group-error');
+            $('.phoneNum.error-message').show()
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            validInput = false;
+        } 
+        
+
+        var emailAddressConfirm = $('#emailAddressConfirm').val();
+
+        var valueb = $('input[name=emailAddress]').val();
+        if ((valueb == '') || (valueb == undefined)) {
+            $('#qemailAddress').addClass('form-group-error');
+            $('.error-message.b').show();
+            $('.error-message.d').hide();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            validInput = false;
+        } 
+
+        var valuec = $('input[name=emailAddressConfirm]').val();
+        if ((valuec == '') || (valuec == undefined)) {
+            $('#qemailAddressConfirm').addClass('form-group-error');
+            $('.error-message.c').show();
+            $('.error-message.d').hide();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            validInput = false;
+        } 
+
+        if ((valueb !== valuec) && (validInput)) {
+            $('#email').addClass('form-group-error');
+            $('.error-message.b').hide();
+            $('.error-message.c').hide();
+            $('.error-message.d').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            validInput = false;
+        } 
+
+        if (changing == "true" && validInput) {
+            go('/DVLA/check-your-answers');
+        } 
+
+        if (validInput) {
+            member.customer.phoneNum = phoneNum;
+            member.customer.email = emailAddressConfirm;
+            go('/DVLA/vehicle-keeper');
+        }
+        
+        if ((validInput) && (changing === "true")) {
+            member.customer.phoneNum = phoneNum;
+            member.customer.email = emailAddressConfirm;
+            go('/DVLA/check-your-answers');
+        } else if (validInput) {
+            member.customer.phoneNum = phoneNum;
+            member.customer.email = emailAddressConfirm;
+            go('/DVLA/vehicle-keeper');
+        }
+    }
+</script>
+{% endblock %}

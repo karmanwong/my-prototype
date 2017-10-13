@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+What sub would you like?
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_alpha.html" %}
+    {% include "includes/buttons/back.html" %}
+
+    <div class="grid-row no-bottom">
+        <div class="column-two-thirds no-bottom">
+            <div class="error-summary" role="group" aria-labelledby="error-summary-heading" tabindex="-1" style="display: none">
+                <h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
+
+                <p>Please amend the following details:</p>
+                <ul class="error-summary-list">
+                    <li class="error-message a"><a href="#input1">Oh, no! What's your sub you'd like?</a></li>
+                </ul>
+            </div>
+            
+            <h1 class="heading-large">What sub would you like?</h1>
+
+            <form class="form">
+                <div class="form-group no-bottom">
+                    <fieldset>
+                        <legend class="visuallyhidden">What sub would you like?</legend>
+                        
+                        <div class="form-group" id="question1">
+                            <label class="form-label" for="input1">
+                                Basic input
+                                <span class="form-hint">Type anything you want here. For example, your pet's name</span>
+                                <span class="error-message a">Oh, no! What's your sub you'd like?</span>
+                            </label>
+                            <input class="form-control form-control-3-4" id="input1" type="text" name="input1" value="">
+                        </div>
+                        {{ button.input(id='continue', name='continue', class='button', type='button', value='Continue') }}
+                    </fieldset>
+                </div><!--  end .form-group  -->
+            </form>
+        </div><!--  end column-two-thirds  -->
+    </div><!--  end gridrow  -->
+</main>
+<script type="text/javascript">
+    
+    //this is what triggers any validation - it translates to 'on clicking something with the class 'button' perform 'validate' - we then set a function called 'validate later which runs a series of conditions for it to check
+    $(".button").click(function(){
+        // Enter function input1 here
+        validate();
+    });
+
+    // this section is a bit hacky but it works perfectly for the system remembering if it's come from a check your answers page - when we come back to this page we want it to hide the back button - it looks to see if the url has '?change=true' at the end of it - this is important so that it can be re-routed back to the check your answers page
+    var changing = location.search.split('change=')[1];
+    if (changing === 'true') {
+        $('.button-back').hide();
+    }
+
+    function validate() {
+        //here we set a variable of valid input and set it to true. We'll need this to help with error validation.
+        var validInput = true;
+
+        //On page load we need the error messages and the class of 'form-group-error error' (which adds the red error indent) to be hidden until called upon
+        $('.error-message.a').hide();
+        $('#question1').removeClass('form-group-error error');
+        
+        //we now create a variable called 'input1' but you can call this whatever you want - this essentially creates a variable which looks at the value of the input field.
+        var input1 = $('input[name=input1]').val();
+        
+        //as on previous pages, we now need to define what consitutes an error. In this case, same as before, if the input field is blank then we want an error message to show.
+        if ((input1 == '') || (input1 == undefined)) {
+            $('#question1').addClass('form-group-error error');
+            $('.error-message.a').show()
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            $('.error-summary').focus();
+            validInput = false;
+        } 
+
+        //again, as on previous pages we're looking for valid input (which we've set to default as 'true') and to see if the changing variable is also set to true. This will reroute a valid inout that came from the check your answers page back to the check your answers page.
+        if ((validInput) && (changing === "true")) {
+            member.questions.input1 = input1;
+            go('/my-prototype/advanced-radio-disclosure');
+            
+        //and finally we define what happens if just valid input is true - in this case we save it to member and route it to the next page in the flow.
+        } else if (validInput) {
+            member.questions.input1 = input1;
+            go('/my-prototype/advanced-radio-disclosure');
+        }
+    }
+</script>
+{% endblock %}

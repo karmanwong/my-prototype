@@ -1,0 +1,276 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Upload pattern
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_beta.html" %}
+    {% include "includes/buttons/back.html" %}
+
+    <div class="grid-row no-bottom">
+        <div class="column-two-thirds no-bottom">
+            <div class="error-summary" role="group" aria-labelledby="error-summary-heading" tabindex="-1" style="display: none">
+                <h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
+
+                <p>Please amend the following details:</p>
+                <ul class="error-summary-list">
+                    <li class="pCodeLookup error-message" style="display: none;"><a href="#pCodeLookup">Provide a postcode</a></li>
+                    
+                    <li class="address error-message" style="display: none;"><a href="#address1">Provide a house number and street</a></li>
+
+                    <li class="townCity error-message" style="display: none"><a href="#townCity">Provide a town or city</a></li>
+                    
+                    <li class="county error-message" style="display: none"><a href="#county">Provide a county</a></li>
+
+                    <li class="postCode error-message" style="display: none"><a href="#postCode">Provide a postcode</a></li>
+                </ul>
+            </div>
+            <h1 class="heading-large">Keeper address</h1>
+            <form class="form">
+                <div class="form-group margin-bottom-0-5">
+                    <div class="form-group margin-bottom-1" id="qpCodeLookup">
+                        <label class="form-label" for="pCodeLookup">
+                            Postcode
+                            <span class="pCodeLookup error-message" style="display: none;"><br>Provide a postcode</span>
+                        </label>
+                        <input class="form-control form-control-1-4" style="text-transform: uppercase;" id="pCodeLookup" type="text" name="pCodeLookup" value="">
+                    </div>
+                    {{ button.input(id='search', name='search', class='button button-blue', type='button', value='Find my address') }}
+                </div>
+                <div id="address-select" class="form-group" style="display: none;">
+                    <label class="form-label visuallyhidden" for="select-box">Address selector</label>
+                    <select class="form-control" id="select-box">
+                        <option>9 addresses were found</option>
+                        <option>1 Example Street, Swansea</option>
+                        <option>2 Example Street, Swansea</option>
+                        <option>3 Example Street, Swansea</option>
+                        <option>4 Example Street, Swansea</option>
+                        <option>5 Example Street, Swansea</option>
+                        <option>6 Example Street, Swansea</option>
+                        <option>7 Example Street, Swansea</option>
+                        <option>8 Example Street, Swansea</option>
+                        <option>9 Example Street, Swansea</option>
+                    </select>
+                </div>
+                <div class="form-group margin-bottom-0">
+                    <fieldset>
+                        <legend class="visuallyhidden">Address</legend>
+                        <div class="form-group" id="qhouseName">
+                            <label class="form-label" for="houseName">
+                                House name (optional)
+                            </label>
+                            <input class="form-control form-control-3-4" id="houseName" type="text" name="houseName" value="">
+                        </div>
+                        <div class="form-group" id="qaddress">
+                            <label class="form-label" for="address1">
+                                House number and street
+                                <span class="address error-message" style="display: none;"><br>Provide a house number and street</span>
+                            </label>
+                            <label class="visuallyhidden" for="address2">Address line 2</label>
+                            <label class="visuallyhidden" for="address3">Address line 3</label>
+                            <input style="margin-bottom:1em;" class="form-control form-control-3-4" id="address1" name="address" type="text" value="">
+                            <input style="margin-bottom:1em;" class="form-control form-control-3-4" id="address2" name="address" type="text" value="">
+                            <input class="form-control form-control-3-4" id="address3" name="address" type="text" value="">
+                        </div>
+
+                        <div class="form-group" id="qtownCity">
+                            <label class="form-label" for="townCity">
+                                Town or City
+                                <span class="townCity error-message" style="display: none;"><br>Provide a town or city</span>
+                            </label>
+                            <input class="form-control form-control-1-2" id="townCity" type="text" name="townCity" value="">
+                        </div>
+                        
+                        <div class="form-group" id="qcounty">
+                            <label class="form-label" for="county">
+                                County
+                                <span class="county error-message" style="display: none;"><br>Provide a county</span>
+                            </label>
+                            <input class="form-control form-control-1-2" id="county" type="text" name="county" value="">
+                        </div>
+
+                        <div class="form-group" id="qpostCode">
+                            <label class="form-label" for="postCode">
+                                Postcode
+                                <span class="postCode error-message" style="display: none;"><br>Provide a postcode</span>
+                            </label>
+                            <input class="form-control form-control-1-4" style="text-transform: uppercase;" id="postCode" type="text" name="postCode" value="">
+                        </div>
+                    </fieldset>
+                </div><!--  end .form-group  -->
+                {{ button.input(id='continue', name='continue', class='button margin-top-1', type='button', value='Continue') }}
+            </form>
+        </div><!--  end column-two-thirds  -->
+
+    </div><!--  end gridrow  -->
+</main>
+
+<script type="text/javascript">
+    //this is what triggers any validation - it translates to 'on clicking something with the class 'button' perform 'postcodevalidate' - we'll' set a function called 'postcodevalidate' later which runs a series of conditions for it to check. Unlike most patterns this one has 2 steps, this is the first and is set to the 'Find my address' button
+    $("#search").click(function(){
+        // Enter function name here
+        postcodevalidate();
+    });
+
+    // this section is a bit hacky but it works perfectly for the system remembering if it's come from a check your answers page - when we come back to this page we want it to hide the back button - it looks to see if the url has '?change=true' at the end of it - this is important so that it can be re-routed back to the check your answers page
+    var changing = location.search.split('change=')[1];
+
+    if (changing === 'true') {
+        $('.button-back').hide();
+    }
+
+    // because this pattern is all 'smoke and mirrors' we set a function to populate the address once an address has been picked from the address dropdown. It will pass whatever post code you typed and it will only ever populate the address with the data defined below.
+    $('select#select-box').change(function(){
+        $('#postCode').val($('#pCodeLookup').val());
+        $('#address1').val('1 Example Street');
+        $('#townCity').val('Swansea');
+        $('#county').val('West Glamorgan');
+    });
+
+    //now we define what validation to do after clicking 'Find my address' which we previously set to a function called 'postcodevalidate'
+    function postcodevalidate() {
+        //we set the default variable to a true valid input so we can flag the conditions of false in the validation below
+        var validInput = true;
+
+        //firstly we hide any error messages ready to call upon them when error conditions are defined
+        $('.pCodeLookup.error-message').hide();
+        $('#qpCodeLookup').removeClass('form-group-error');   
+
+        // here we set a variable which looks for an input in the postcode lookup field 
+        var pCodeLookup = $('input[name=pCodeLookup]').val();
+        //if the input has no value we then set it to show an error message
+        if ((pCodeLookup == '') || (pCodeLookup == undefined)) {
+            $('#qpCodeLookup').addClass('error form-group-error');
+            $('.pCodeLookup.error-message').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            $('.error-summary').focus();
+            validInput = false;
+        }
+        //if there is a valid input - instead of telling it to route somewhere we get it to show the address dropdown instead
+        if (validInput) {  
+            $('#address-select').show();
+            $('#qpCodeLookup').removeClass('error form-group-error');
+            $('.pCodeLookup.error-message').hide();
+            $('.error-summary').hide();
+        }
+    }
+
+    //As mentioned earlier we have set set up functions for 2 different buttons - this is the second button at the bottom of the page. We want to do the same thing and get it to run a function called 'validate', but this time on a button with the id (#) of 'continue'
+    $("#continue").click(function(){
+        // Enter function name here
+        validate();
+    });
+    
+    //now we define what validate does
+    function validate() {
+
+        //firstly we set the default variable as a true valid input
+        var validInput = true;
+        //then we hide all the error messages ready to call upon them later
+        $('.address.error-message').hide();
+        $('#qaddress').removeClass('error form-group-error');
+        $('.error-postCode.error-message').hide();
+        $('#postCode').removeClass('error form-group-error');
+        $('#qpCodeLookup').removeClass('error form-group-error');
+        $('.pCodeLookup.error-message').hide();
+        $('.error-summary').hide();
+        
+        //because the housename is an optional field we don't actually run any validation on it, we just set a variable to member if it does have a value
+        var houseName = $('input[id=houseName]').val();
+
+        //we now make sure that the first line of the address has a value and define what happens if it doesn't. In this case if it has no value we get it to show an error
+        var street = $('input[id=address1]').val();
+        if ((street == '') || (street == undefined)) {
+            $('#qaddress').addClass('error form-group-error');
+            $('.address.error-message').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            $('.error-summary').focus();
+            validInput = false;
+        }
+        
+        //now we could run validation on these lines of the address, but as long as the first line has a value we can base our validation on this section on that alone. Here, as with housename, we just set variables for the values of these 2 other lines
+        var street2 = $('input[id=address2]').val();
+        var street3 = $('input[id=address3]').val();
+
+        //now we set a variable for the town / city input which looks for an input value
+        var townCity = $('input[name=townCity]').val();
+        //we define that if there is no value show an error
+        if ((townCity == '') || (townCity == undefined)) {
+            $('#qtownCity').addClass('error form-group-error');
+            $('.townCity.error-message').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            $('.error-summary').focus();
+            validInput = false;
+        }
+        
+        //now we set a variable for the county input which looks for an input value
+        var county = $('input[name=county]').val();
+        //we define that if there is no value show an error
+        if ((county == '') || (county == undefined)) {
+            $('#qcounty').addClass('error form-group-error');
+            $('.county.error-message').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            $('.error-summary').focus();
+            validInput = false;
+        }
+        
+        //now we set a variable for the postcode input which looks for an input value - if you've used the postcode lookup this will have a value already, if they chose to enter an address manually then this error is more likely to occur. We also get it to transform the input into uppercase
+        var postCode = $('input[name=postCode]').val().toUpperCase();
+        //we define that if there is no value show an error
+        if ((postCode == '') || (postCode == undefined)) {
+            $('#qpostCode').addClass('error form-group-error');
+            $('.postCode.error-message').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            $('.error-summary').focus();
+            validInput = false;
+        }
+
+        //this is where we define how member should member the address if housename was defined - because we had a lot of different inputs we need to make sure it members only what had a value and displays it correctly when called upon.
+        if (validInput && houseName.length>0) {
+            var address1 = houseName + "<br>" + street + "<br>";
+            if (street2 && street2.length>0 )
+                address1 += street2+"<br>";
+            if (street3 && street3.length>0 )
+                address1 += street3+"<br>";
+            address1 += (townCity + "<br>" + county + "<br>" + postCode);
+            //now all the if statements are done we can member all of the inputs under one member variable called 'address1'
+            member.questions.address1 = address1; 
+        //because housename is optional we now do the exact same thing as before but tell it that it's still a valid input without it    
+        } else if (validInput && (houseName === '' || houseName === 'undefined')) {
+            var address1 = street + "<br>";
+            if (street2 && street2.length>0 )
+                address1 += street2+"<br>";
+            if (street3 && street3.length>0 )
+                address1 += street3+"<br>";
+            address1 += (townCity + "<br>" + county + "<br>" + postCode);
+
+            member.questions.address1 = address1; 
+        }
+        
+        var address = street + "<br>";
+        
+        //now we define that if changing is true and it has a valid input then route to the check your answers page
+        if ((validInput) && (changing === "true")) {
+            go('/DVLA/check-your-answers');
+        //otherwise if it's a valid input and changing isn't true then route to the next page
+        } else if (validInput) {  
+            go('/DVLA/check-your-answers');
+        }
+
+    }
+</script>
+{% endblock %}

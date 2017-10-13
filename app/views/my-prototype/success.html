@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Yay, you are ready to eat now
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+
+    <div class="grid-row">
+        <div class="column-two-thirds">
+
+            <div class="govuk-box-highlight">
+                <h1 class="bold-large banner-header">Ready to eat!</h1>
+            </div>
+
+            <h2 class="heading-medium">What happens next?</h2>
+            
+            <ol class="list example-icon-list">
+                <li><i class="icon icon-step-1"></i> <p>Download the <a href="https://github.com/dudelmeister/dvla-templates-kit">github repository</a> for this template kit</p></li>
+                <li><i class="icon icon-step-2" style=""></i> <p>Look through the code, learn and understand it and copy and paste the patterns we've explored in your own service. The only things you'll need to change are headers, paragraphs, labels, form-hints, id's and (some) classes</p></li>
+            </ol>
+            
+            <p class="margin-top-2"><a href="#">Print this page</a></p>
+            
+            {{ button.input(id='continue', name='continue', class='button', type='button', value='Return to start') }}
+        </div>
+    </div>
+
+</main>
+<script type="text/javascript">
+
+    
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+
+    function validate() { 
+        member.clear();
+        go('/my-prototype/start');
+    }
+
+</script>
+{% endblock %}

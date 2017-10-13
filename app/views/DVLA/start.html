@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Learn how to build DVLA prototypes
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    <!--Here you can change the banner to Alpha or Beta by simply renaming the text below to: "inlcudes/phase_banner_alpha.html" or "inlcudes/phase_banner_beta.html"-->
+    {% include "includes/phase_banner_alpha.html" %}
+    
+    <!--Here you can set the breadcrumb links to imitate where on GOV.UK your service will be-->
+    <div id="global-breadcrumb">
+        <ol>
+            <li><a href="http://www.gov.uk">Home</a></li>
+            <li><a href="">DVLA</a></li>
+            <li>DVLA template kit</li>
+        </ol>
+    </div>
+
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <h1 class="heading-xlarge">Learn how to build DVLA prototypes</h1>
+
+            <p>Use the service to:</p>
+
+            <p>View a number of patterns and validation techniques used by DVLA Interaction Designers.</p>
+
+            <p>You can use your text editor to see how these pages were built, how it remembers data, how error validation works and how routing works.</p>
+            
+            {{ button.input(id='continue', name='continue', class='button button-start', type='button', value='Start now') }}
+
+            <h2 class="heading-medium">Before you start</h2>
+
+            <p>You will need:</p>
+
+            <ul class="list list-bullet">
+                <li>A text editor - most of us use <a href="http://brackets.io/">Brackets</a> by Adobe</li>
+            </ul>
+                
+        </div><!-- end .column-two-thirds  -->
+
+        <!--  RIGHT COLUMN  -->
+        <!--Here you can set the names of relevant links to elsewhere on GOV.UK-->
+        
+        <div class="column-third">
+
+            <aside class="govuk-related-items" role="complementary">
+                <h2 class="heading-medium" id="subsection-title">Subsection</h2>
+                <nav role="navigation" aria-labelledby="subsection-title">
+                    <ul class="font-xsmall">
+                        <li><a href="#">Related link</a></li>
+                        <li><a href="#">Related link</a></li>
+                        <li><a href="#" class="bold-xsmall">More <span class="visuallyhidden">in Subsection</span></a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+        </div>
+    </div><!-- end .grid-row  -->
+</main>
+<script type="text/javascript">
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+    
+    function validate() {
+        member.clear();
+        go('/DVLA/basic-binary');
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Our records show that a chargepoint has previously been installed at this address
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_beta.html" %}
+    {% include "includes/buttons/back.html" %}
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <h1 class="heading-large">Our records show that a chargepoint has previously been installed at this address</h1>
+            <h2 class="heading-medium">Is there another electric or plug-in hybrid vehicle at this address?</h2>
+            <form class="form">
+                <div class="form-group" id="question">
+                    <span class="error-message">
+                        Select an option
+                    </span>
+                    <fieldset class="inline">
+                        <legend class="visuallyhidden">Is there another electric or plug-in hybrid vehicle at this address?</legend>
+
+                        <label class="block-label" for="secondVehicle-a1" id="secondVehicle-a1-label">
+                            <input id="secondVehicle-a1" type="radio" name="secondVehicle" value="Yes">
+                            Yes
+                        </label>
+
+                        <label class="block-label" for="secondVehicle-a2" id="secondVehicle-a2-label">
+                            <input id="secondVehicle-a2" type="radio" name="secondVehicle" value="No">
+                            No
+                        </label>
+                    </fieldset>
+                </div>
+                <details class="margin-bottom-1">
+
+                    <summary><span class="summary">I don’t have a chargepoint installed at my address</span></summary>
+
+                    <div class="panel panel-border-narrow">
+
+                        <p>
+                            If you think our records are wrong please email the electric vehicle homecharge scheme team at <a href="#">ChargePointGrantApps@dvla.gsi.gov.uk</a>
+                        </p>
+
+                    </div>
+
+                </details>
+                {{ button.input(id='continue', name='continue', class='button', type='button', value='Continue') }}
+            </form>
+        </div>
+    </div>
+</main>
+
+<script type="text/javascript">
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+
+    // Check if user has been sent back from summary page
+    var changing = location.search.split('change=')[1];
+    if (changing === 'true') {
+        $('.button-back').hide();
+    }
+
+    function validate() {
+
+        var question = "What type of vehicle secondVehicle are you?";
+        var value = $('input[name=secondVehicle]:checked').val();
+
+        if (changing == "true" && (value === 'Yes')) {
+            member.vehicle.secondVehicle = value;
+            go('/DVLA/check-your-answers');
+        } 
+
+        if (value === 'Yes') {
+            member.vehicle.secondVehicle = value;
+            go('/DVLA/second-vehicle-registration-number');
+        }
+        else if (value === 'No') {
+            go('/DVLA/dnq2');
+        } else {
+            $('#question').addClass('form-group-error');
+            $('.error-message').show();
+        }
+    }
+</script>
+{% endblock %}

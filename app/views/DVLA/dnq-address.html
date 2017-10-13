@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Our records show that two chargepoints have previously been installed at this address
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_beta.html" %}
+
+    <div class="grid-row no-bottom">
+        <div class="column-two-thirds no-bottom">
+
+            <h1 class="heading-large margin-bottom-1">Our records show that two chargepoints have previously been installed at this address</h1>
+
+            <p>
+                You do not qualify because our records show that you have a maximum of two chargepoints installed at your address.
+            </p>
+            
+            <details class="margin-bottom-1">
+
+                <summary><span class="summary">I don’t have 2 chargepoints installed at my address</span></summary>
+
+                <div class="panel panel-border-narrow">
+
+                    <p>
+                        If you think our records are wrong please email the electric vehicle homecharge scheme team at <a href="#">ChargePointGrantApps@dvla.gsi.gov.uk</a>
+                    </p>
+
+                </div>
+
+            </details>
+
+            {{ button.input(id='continue', name='continue', class='button', type='button', value='Return to GOV.UK') }}
+
+        </div><!--  end column-two-thirds  -->
+    </div><!--  end gridrow  -->
+</main>
+<script type="text/javascript">
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+    function validate() { 
+        go('/index');
+    }
+</script>
+{% endblock %}

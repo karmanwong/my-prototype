@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+You do not qualify for the electric vehicle homecharge scheme
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_beta.html" %}
+
+    <div class="grid-row no-bottom">
+        <div class="column-two-thirds no-bottom">
+
+            <h1 class="heading-large margin-bottom-1">You do not qualify for the electric vehicle homecharge scheme</h1>
+
+            <p>
+                You do not qualify because you do not have an additional electric or plug-in hybrid vehicle to qualify for a second chargepoint to be installed at your address.
+            </p>
+
+            {{ button.input(id='continue', name='continue', class='button', type='button', value='Return to GOV.UK') }}
+
+        </div><!--  end column-two-thirds  -->
+    </div><!--  end gridrow  -->
+</main>
+<script type="text/javascript">
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+    function validate() { 
+        go('/index');
+    }
+</script>
+{% endblock %}

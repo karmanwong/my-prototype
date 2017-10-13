@@ -1,0 +1,331 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Tabs
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_alpha.html" %}
+    {% include "includes/buttons/back.html" %}
+
+    <div class="grid-row no-bottom">
+        <div class="column-full">
+            <h1 class="heading-large">Tabs</h1>
+
+            <div class="tabs" style="margin-top:1em;">
+
+                <div class="tabs-nav">
+
+                    <ul class="tabs-list">
+                        <li><a href="#tab-1">Information and services</a></li>
+                        <li><a href="#tab-2">Vehicle details</a></li>
+                        <li><a href="#tab-3">MOT information</a></li>
+                    </ul>
+
+                </div>
+
+                <div class="tabs-content">
+
+                    <div class="tabs-panel" id="tab-1">
+
+                        <div class="tabs-panel-inner column-two-thirds" style="padding: 0;">
+                            <h2 class="heading-medium">Information and services</h2>
+                            <p class="margin-top-1">If you’ve just taxed, made a SORN or had an MOT it can take up to 5 days for your details to update. You can check with your bank/building society to confirm your payment was successful.
+                            </p>
+
+                            <p class="text"><a href="https://www.gov.uk/vehicle-tax" target="_blank">Tax the vehicle</a>
+                                <span class="form-hint">if it's driven on public roads</span>
+                            </p>
+                            <p class="text"><a href="https://www.gov.uk/make-a-sorn" target="_blank">Make a SORN (Statutory Off Road Notification)</a><span class="form-hint">if the vehicle isn't kept or driven on a public road</span>
+                            </p>
+                            <p class="text"><a href="https://www.gov.uk/sold-bought-vehicle" target="_blank">Tell DVLA you've sold the vehicle</a>
+                            </p>
+                            <p class="text"><a href="https://www.gov.uk/report-untaxed-vehicle" target="_blank">Report an untaxed vehicle to DVLA</a>
+                            </p>
+                            <p class="text"><a href="https://www.gov.uk/keep-registration-number" target="_blank">Take a registration number off a vehicle</a>
+                            </p>
+                            <p class="text"><a href="https://www.gov.uk/put-registration-number-vehicle" target="_blank">Put a registration number on a vehicle</a>
+                            </p>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="tabs-panel" id="tab-2">
+
+                        <div class="tabs-panel-inner column-two-thirds" style="padding: 0;">
+                            <h2 class="heading-medium">Vehicle details</h2>
+                            <ul class="list-summary">
+                                <li class="list-summary-item" style="border-top:none;">
+                                    <span>Vehicle make:</span>
+                                    <span><strong>Volkswagen</strong></span>
+                                </li>
+
+                                <li class="list-summary-item">
+                                    <span>Date of first registration:</span>
+                                    <span><strong>August 1997</strong></span>
+                                </li>
+
+                                <li class="list-summary-item">
+                                    <span>Year of manufacture:</span>
+                                    <span><strong>1991</strong></span>
+                                </li>
+
+                                <li class="list-summary-item">
+                                    <span>Cylinder capacity (cc):</span>
+                                    <span><strong>2000cc</strong></span>
+                                </li>
+
+                                <li class="list-summary-item">
+                                    <span>CO₂ Emissions:</span>
+                                    <span><strong>Not available</strong></span>
+                                </li>
+
+                                <li class="list-summary-item">
+                                    <span>Fuel type:</span>
+                                    <span><strong>HEAVY OIL</strong></span>
+                                </li>
+
+                                <li class="list-summary-item">
+                                    <span>Export marker:</span>
+                                    <span><strong>No</strong></span>
+                                </li>
+
+                                <li class="list-summary-item">
+                                    <span>Vehicle status:</span>
+                                    <span><strong>Untaxed</strong></span>
+                                </li>
+
+                                <li class="list-summary-item">
+                                    <span>Vehicle colour:</span>
+                                    <span><strong>BLUE</strong></span>
+                                </li>
+
+                                <li class="list-summary-item">
+                                    <span>Vehicle type approval:</span>
+                                    <span><strong>Not available</strong></span>
+                                </li>
+
+                                <li class="list-summary-item">
+                                    <span>Additional rate of tax:</span>
+                                    <span><strong>No</strong></span>
+                                </li>
+
+                            </ul>
+
+                            <h2 class="heading-medium">Incorrect Details?</h2>
+
+                            <h2 class="visuallyhidden">Help with corrections to vehicle records</h2>
+                            <p>If the vehicle details are incorrect please write to:</p>
+                            <p>
+                                CCG<br>
+                                DVLA<br>
+                                Swansea<br>
+                                SA99 1BA
+                            </p>
+
+                            <p>
+                                You’ll need to include the incorrect V5C registration certificate (log book).
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="tabs-panel" id="tab-3">
+
+                        <div class="tabs-panel-inner column-two-thirds" style="padding: 0;">
+
+                            <h2 class="heading-medium">MOT information</h2>
+
+                            <p>DVSA for vehicles registered to a GB address or visit the <a href="https://www.gov.uk/browse/driving/mot-insurance" target="_blank">vehicle MOT page</a>
+                            </p>
+                            <p>DVAT for vehicles registered to a Northern Ireland address or visit <a href="http://www.nidirect.gov.uk/index/information-and-services/motoring/mot-and-vehicle-testing.htm" target="_blank">NI Direct</a></p> 
+
+                        </div>
+
+                    </div>
+
+                </div>
+                {{ button.input(id='continue', petsName='continue', class='button', type='button', value='Continue') }}
+            </div>
+        </div><!--  end column-two-thirds  -->
+    </div><!--  end gridrow  -->
+</main>
+<script type="text/javascript">
+
+    //this is what triggers any validation - it translates to 'on clicking something with the class 'button' perform 'validate' - we then set a function called 'validate later which runs a series of conditions for it to check
+    $(".button").click(function(){
+        // Enter function petsName here
+        validate();
+    });
+
+    // this section is a bit hacky but it works perfectly for the system remembering if it's come from a check your answers page - when we come back to this page we want it to hide the back button - it looks to see if the url has '?change=true' at the end of it - this is important so that it can be re-routed back to the check your answers page
+    var changing = location.search.split('change=')[1];
+    if (changing === 'true') {
+        $('.button-back').hide();
+    }
+
+    function validate() {
+        go('/DVLA/advanced-path/advanced-accordion');
+    }
+    
+    // Declare some variables
+
+    var $container = '.tabs';
+    var $tablist   = '.tabs-list';
+    var $tabpanel  = '.tabs-panel';
+
+
+    // The setup
+
+    $($container + ' ' + $tablist).attr('role','tablist');
+
+    $($container + ' [role="tablist"] li').attr('role','presentation');
+
+    $('[role="tablist"] a').attr({
+        'role' : 'tab',
+        'tabindex' : '-1'
+    });
+
+
+    // Make each aria-controls correspond id of targeted section (re href)
+
+    $('[role="tablist"] a').each(function() {
+        $(this).attr(
+            'aria-controls', $(this).attr('href').substring(1)
+        );
+    });
+
+
+    // Make the first tab selected by default and allow it focus
+
+    $('[role="tablist"] li:first-child a').attr({
+        'aria-selected' : 'true',
+        'tabindex' : '0'
+    });
+
+
+    // Make each section focusable and give it the tabpanel role
+
+    $($container + ' ' + $tabpanel).attr({
+        'role' : 'tabpanel'
+    });
+
+
+    // Make first child of each panel focusable programmatically
+
+    $($container + ' ' + $tabpanel + ' > *:first-child').attr({
+        'tabindex' : '0'
+    });
+
+
+    // Make all but the first section hidden (ARIA state and display CSS)
+
+    $('[role="tabpanel"]:not(:first-of-type)').attr({
+        'aria-hidden' : 'true'
+    });
+
+
+    // Change focus between tabs with arrow keys
+
+    $('[role="tab"]').on('keydown', function(e) {
+
+
+        // Define current, previous and next (possible) tabs
+
+        var $original = $(this);
+        var $prev     = $(this).parents('li').prev().children('[role="tab"]');
+        var $next     = $(this).parents('li').next().children('[role="tab"]');
+        var $target;
+
+
+        // Find the direction (prev or next)
+
+        switch (e.keyCode) {
+            case 37:
+                $target = $prev;
+                break;
+            case 39:
+                $target = $next;
+                break;
+            default:
+                $target = false
+                break;
+                         }
+
+        if ($target.length) {
+
+            $original.attr({
+                'tabindex' : '-1',
+                'aria-selected' : null
+            });
+
+            $target.attr({
+                'tabindex' : '0',
+                'aria-selected' : true
+            }).focus();
+
+        }
+
+
+        // Hide panels
+
+        $($container +' [role="tabpanel"]')
+            .attr('aria-hidden', 'true');
+
+
+        // Show panel which corresponds to target
+
+        $('#' + $(document.activeElement).attr('href').substring(1))
+            .attr('aria-hidden', null);
+
+    });
+
+
+    // Handle click on tab to show + focus tabpanel
+
+    $('[role="tab"]').on('click', function(e) {
+
+
+        e.preventDefault();
+
+
+        // Remove focusability [sic] and aria-selected
+
+        $('[role="tab"]').attr({
+            'tabindex': '-1',
+            'aria-selected' : null
+        });
+
+
+        // Replace above on clicked tab
+
+        $(this).attr({
+            'aria-selected' : true,
+            'tabindex' : '0'
+        });
+
+
+        // Hide panels
+
+        $($container +' [role="tabpanel"]').attr('aria-hidden', 'true');
+
+
+        // Show corresponding panel
+
+        $('#' + $(this).attr('href').substring(1))
+            .attr('aria-hidden', null);
+
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,730 @@
+// Path to assets for use with the file-url function
+// in the govuk frontend toolkit's url-helpers partial
+$path: "/public/images/";
+
+// Import GOV.UK elements from /govuk-modules/, this will import the frontend toolkit and some base styles.
+// Take a look in /govuk-modules/_govuk-elements.scss to see which files are imported.
+@import 'govuk-elements';
+
+// Take a look at in app/assets/sass/patterns/ to see which files are imported.
+@import 'patterns/check-your-answers';
+@import 'patterns/task-list';
+
+// Related items
+// (These styles will be moved to GOV.UK elements, duplicating here for now.)
+.govuk-related-items {
+  margin-top: $gutter;
+  border-top: 10px solid $govuk-blue;
+  padding-top: 5px;
+
+  .heading-medium {
+    margin-top: 0.3em;
+    margin-bottom: 0.5em;
+  }
+
+  li {
+    margin-bottom: 10px;
+    list-style-type: none;
+  }
+}
+
+// Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
+
+// column third additional content
+
+.content-third {
+    margin-top: $gutter;
+    border-top: 10px solid $govuk-blue;
+    padding-top: 0;
+    margin-top:0;
+
+    .heading-medium {
+        margin-top: 1em;
+        margin-bottom: 0.5em;
+    }
+}
+
+// fix for mobile blue-bar bug
+
+.column-third,
+.column-one-third {
+    float: left;
+}
+
+// Hides error message until needed
+span.error-message { display: none; }
+.error-summary { display: none; }
+
+// -----------------
+
+// override button colour
+
+.button-blue {
+    background-color: $link-colour; // override standard green colour
+    box-shadow: 0 2px 0 darken( $link-colour, 20% ); // override bottom border colour with a darker version of the background colour
+
+    &:hover, &:focus, &:visited, &:active{
+        background-color: darken( $link-colour, 10% ); // add slightly darker background colour for hover and focus
+
+    }
+}
+
+.button-grey {
+    color: black;
+    background-color: $grey-3; // override standard green colour
+    box-shadow: 0 2px 0 darken( $grey-3, 20% ); // override bottom border colour with a darker version of the background colour
+
+    &:hover, &:focus, &:visited, &:active{
+        background-color: darken( $grey-3, 10% ); // add slightly darker background colour for hover and focus
+        color: black;
+    }
+}
+
+.button-red {
+    color: $white;
+    background-color: $red; // override standard green colour
+    box-shadow: 0 2px 0 darken( $red, 10% ); // override bottom border colour with a darker version of the background colour
+
+    &:hover, &:focus, &:visited, &:active{
+        background-color: darken( $red, 5% ); // add slightly darker background colour for hover and focus
+        color: $white;
+    }
+}
+
+// -----------------
+
+// override errors for multiple input (dates)
+
+.error .form-control {
+    border: 4px solid #b10e1e;
+}
+
+// -----------------
+
+// style a list to look like a table
+
+.button-change {
+    font-weight:bold;
+}
+
+.list-summary-item {
+    border-bottom: 1px solid $border-colour;
+    @extend %contain-floats;
+    padding: .62em 0.0em 0.42em 0.0em;
+}
+
+.list-summary-item:first-child {
+    border-top: 1px solid $border-colour; // Add border top to first item in list
+}
+
+.list-summary-item span:nth-child(2) { font-weight: 700; }
+
+.list-summary-item span {
+    display: block; // Force each <span> onto it’s own line
+}
+
+@media (min-width: 440px) {
+
+    .list-summary-item span {
+        float: left; // Make each <span> line up in one row
+        width: 30%; // Give all <span>s the same width
+    }
+
+    .list-summary-item span:first-child {
+        width: 40%; // Make first <span> 40% wide
+    }
+
+    .list-summary-item span:nth-child(2) { font-weight: 700; }
+
+    .list-summary-item.playback span:first-child {
+        width: 80%; // Make first <span> 40% wide
+    }
+
+    .list-summary-item-right {
+        text-align: right; // Make 3rd <span> align right
+        float:none;
+    }
+
+}
+
+// -----------------
+
+// Spacing 
+
+.margin-top-0 { margin-top: 0em; }
+.margin-top-0-5 { margin-top: 0.5em; }
+.margin-top-1 { margin-top: 1em; }
+.margin-top-1-5 { margin-top: 1.5em; }
+.margin-top-2 { margin-top: 2em; }
+.margin-top-3 { margin-top: 3em; }
+.margin-top-4 { margin-top: 4em; }
+
+.margin-right-1 { margin-right: 1em; }
+.margin-right-2 { margin-right: 2em; }
+.margin-right-3 { margin-right: 3em; }
+.margin-right-4 { margin-right: 4em; }
+
+.margin-bottom-0 { margin-bottom: 0em; }
+.margin-bottom-0-1 { margin-bottom: 0.1em; }
+.margin-bottom-0-5 { margin-bottom: 0.5em; }
+.margin-bottom-1 { margin-bottom: 1em; }
+.margin-bottom-1-5 { margin-bottom: 1.5em; }
+.margin-bottom-2 { margin-bottom: 2em; }
+.margin-bottom-3 { margin-bottom: 3em; }
+.margin-bottom-4 { margin-bottom: 4em; }
+
+.margin-left-1 { margin-left: 1em; }
+.margin-left-2 { margin-left: 2em; }
+.margin-left-3 { margin-left: 3em; }
+.margin-left-4 { margin-left: 4em; }
+
+.padding-top-1-5 { padding-top: 1.5em !important; }
+
+.padding-top-1 { padding-top: 1em; }
+.padding-top-2 { padding-top: 2em; }
+.padding-top-3 { padding-top: 3em; }
+.padding-top-4 { padding-top: 4em; }
+
+.padding-right-1 { padding-right: 1em; }
+.padding-right-2 { padding-right: 2em; }
+.padding-right-3 { padding-right: 3em; }
+.padding-right-4 { padding-right: 4em; }
+
+.padding-bottom-0-5 { padding-bottom: 0.5em; }
+.padding-bottom-1 { padding-bottom: 1em; }
+.padding-bottom-1-5 { padding-bottom: 1.5em; }
+.padding-bottom-2 { padding-bottom: 2em; }
+.padding-bottom-3 { padding-bottom: 3em; }
+.padding-bottom-4 { padding-bottom: 4em; }
+
+.padding-left-1 { padding-left: 1em; }
+.padding-left-2 { padding-left: 2em; }
+.padding-left-3 { padding-left: 3em; }
+.padding-left-4 { padding-left: 4em; }
+
+// -----------------
+
+// strong tag for bolding 
+
+strong {
+    font-weight: 700;
+}
+
+// -----------------
+
+// Global breadcrumb
+
+#global-breadcrumb {
+
+    @extend %grid-row;
+
+    ol {
+
+        @include grid-column(1);
+        padding-top: 0.75em;
+        padding-bottom: 0.75em;
+
+        li {
+
+            @include core-16;
+            float: left;
+
+            background-image: file-url("separator.png");
+            @include device-pixel-ratio() {
+                background-image: file-url("separator-2x.png");
+                background-size: 6px 11px;
+            }
+
+            background-position: 100% 50%;
+            background-repeat: no-repeat;
+
+            list-style: none;
+
+            margin-right: 0.5em;
+            margin-bottom: 0.4em;
+            margin-left: 0;
+            padding-right: 1em;
+
+            a {
+                color: $text-colour;
+            }
+
+            strong {
+                font-weight: normal;
+            }
+
+            &:last-child {
+                background-image: none;
+                margin-right: 0
+            }
+        }
+    }
+}
+
+// -----------------
+
+/*   STYLING FOR condition-selection   */
+.ui-autocomplete {
+    padding: 0;
+    list-style: none;
+    background-color: #fff;
+    width: 3em;
+    border-left: 1px solid #BFC1C3;
+    border-right: 1px solid #BFC1C3;
+    max-height: 150px;
+    overflow-x: hidden;
+}
+
+.ui-autocomplete .ui-menu-item {
+    display: block;
+    font-size: 1.2em;
+    padding: .4em;
+    color: #353D44;
+    cursor: pointer;
+}
+.ui-autocomplete .ui-menu-item:first-child { border-top: none; }
+.ui-autocomplete .ui-menu-item.ui-state-focus {
+    color: #fff;
+    background-color: #0097cf;
+}
+.ui-helper-hidden-accessible { display:none; }
+.ui-autocomplete {
+    position: absolute;
+    border-bottom: 1px solid #BFC1C3;
+}
+.condiition-selection-panel {
+    padding-top: 0.1em !important;
+    padding-bottom: 0.8em !important;
+}
+
+
+/* ---------------------------------- */
+
+/* Tabs */
+
+
+$module: 'tabs';
+
+
+.#{$module} {
+    margin-bottom: 1.05263em; // 20px
+
+
+    // Tab list
+
+    [role="tablist"] {
+        border-top: 1px solid $grey-2;
+        margin: 0;
+
+        @include media(tablet) {
+            border-top: 0 none;
+        }
+
+
+        li {
+            @include core-19;
+            border-bottom: 1px solid $grey-2;
+            margin: 0;
+
+
+            @include media(tablet) {
+                border-bottom: 0 none;
+                float: left;
+                margin: 0 0 -1px;
+                padding: 0;
+            }
+
+
+            a {
+                background-color: $white;
+                display: block;
+                padding: em(9);
+                text-decoration: none;
+
+                &:focus {
+                    outline: 3px solid #ffbf47;
+                }
+
+                @include media(tablet) {
+                    background-color: $grey-3;
+                    border: 0 none;
+                    float: left;
+                    margin: em(5) em(5) em(5) 0;
+                    padding: em(9) em(19);
+                    text-align: center;
+                }
+
+            }
+
+
+            // Active tab
+
+            [aria-selected="true"] {
+                background-color: $white;
+                color: $text-colour;
+                cursor: default;
+                text-decoration: none;
+
+                @include media(tablet) {
+                    border: 1px solid $grey-2;
+                    border-bottom: 1px solid transparent;
+                    margin-top: 0;
+                    margin-bottom: 0;
+                    padding: em(13) em(18) em(14);
+                }
+
+            }
+
+        }
+
+    }
+
+
+    // Tab content
+
+    &-content {
+        clear: both;
+
+        [role="tabpanel"] {
+
+            @include media(tablet) {
+                border-top: 1px solid $grey-2;
+            }
+
+            &[aria-hidden="true"] {
+                display: none;
+            }
+
+        }
+
+    }  
+
+
+    // Tab panel inner
+
+    &-panel-inner {
+
+        &:focus {
+            border: 0;
+            outline: 0;
+        }      
+
+
+    }  
+
+
+}
+
+/* - - - - - - - - - - - - - */
+
+.column-three-quarter {
+    padding: 0 15px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+@media (min-width: 641px) {
+    .column-three-quarter {
+        float: right;
+        width: 75%;
+    }
+}
+
+.column-quarter {
+    padding: 0 15px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+@media (min-width: 641px) {
+    .column-quarter {
+        float: left;
+        width: 25%;
+    }
+}
+
+.logout {
+    text-align:right;
+}
+
+.link-logout {
+    display: -moz-inline-stack;
+    display: inline-block;
+    position: relative;
+    font-family: "nta", Arial, sans-serif;
+    font-weight: 400;
+    text-transform: none;
+    font-size: 14px;
+    line-height: 1.14286;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding-left: 14px;
+}
+
+@media (min-width: 641px) {
+    .link-logout {
+        font-size: 16px;
+        line-height: 1.25;
+    }
+}
+
+.edit-bold {
+    float: right;
+    text-align:right;
+    font-weight:700;
+}
+
+.remove-bold {
+    margin-right:1em;
+    float: right;
+    text-align:right;
+    font-weight:700;
+}
+
+.strong {
+    font-weight:700;
+}
+
+// icon list spacing
+
+.example-icon-list p {
+    display: list-item;
+    font-size: 19px;
+    padding-left: 40px;
+    margin-bottom: 1.5em;
+    margin-top: -1.50em;
+}
+
+// grey success box
+
+.grey-success {
+    margin: 1em 0;
+    padding: 2em 0 1em;
+    color: #0B0C0C;
+    background: #DEE0E2;
+    text-align: center;
+}
+
+.banner-header {
+    padding-bottom:0.5em;
+}
+
+//accordions
+
+.accordion-with-descriptions .block-label {
+    background-color: #fff;
+    border: none;
+    float: none;
+    margin-top: 0;
+}
+
+.accordion-with-descriptions .subsection {
+    margin-bottom: 0.1em;
+}
+
+.accordion-with-descriptions .subsection-controls {
+    min-height: 35px;
+}
+
+.accordion-with-descriptions .subsection-controls button.js-open-close {
+    float: right;
+    font-family: "nta", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.1428571429;
+    font-weight: 400;
+    text-transform: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: #005ea5;
+    padding: 0.5em 0.5em;
+}
+
+@media (min-width: 641px) {
+    .accordion-with-descriptions .subsection-controls button.js-open-close {
+        font-size: 16px;
+        line-height: 1.25;
+    }
+}
+
+.accordion-with-descriptions .subsection__header {
+    padding-bottom: 0.6em;
+    border-bottom: 1px solid #bfc1c3;
+    position: relative;
+    background: #F8F8F8;
+    padding-top: 0.9em;
+}
+
+.accordion-with-descriptions .subsection__title {
+    font-family: "nta", Arial, sans-serif;
+    font-size: 19px;
+    line-height: 1.25;
+    font-weight: 700;
+    text-transform: none;
+    padding-top: 0;
+    margin-left: 1em;
+}
+
+@media (min-width: 641px) {
+    .accordion-with-descriptions .subsection__title {
+        font-size: 19px;
+        line-height: 1.3157894737;
+    }
+}
+
+.accordion-with-descriptions .subsection__title button {
+    font-family: "nta", Arial, sans-serif;
+    font-size: 19px;
+    line-height: 1.25;
+    font-weight: 700;
+    text-transform: none;
+    background: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+@media (min-width: 641px) {
+    .accordion-with-descriptions .subsection__title button {
+        font-size: 19px;
+        line-height: 1.3157894737;
+    }
+}
+
+.accordion-with-descriptions .subsection-title {
+    font-family: "nta", Arial, sans-serif;
+    font-size: 19px;
+    line-height: 1.25;
+    font-weight: 700;
+    text-transform: none;
+    padding-top: 1em;
+}
+
+@media (min-width: 641px) {
+    .accordion-with-descriptions .subsection-title {
+        font-size: 19px;
+        line-height: 1.3157894737;
+    }
+}
+
+.accordion-with-descriptions .subsection-title:hover {
+    cursor: pointer;
+}
+
+.accordion-with-descriptions .subsection-title:focus {
+    outline: 3px solid #ffbf47;
+}
+
+.accordion-with-descriptions .subsection__description {
+    display: block;
+    font-family: "nta", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.1428571429;
+    font-weight: 400;
+    text-transform: none;
+    color: #6f777b;
+    margin-bottom: 0;
+}
+
+@media (min-width: 641px) {
+    .accordion-with-descriptions .subsection__description {
+        font-size: 16px;
+        line-height: 1.25;
+    }
+}
+
+.accordion-with-descriptions .subsection__content {
+    border: 0px solid #bfc1c3;
+    border-top: 0px;
+}
+
+.accordion-with-descriptions .subsection__items {
+    padding-bottom: 0.5em;
+}
+
+.accordion-with-descriptions .subsection__items li {
+    margin-bottom: 0.25em;
+}
+
+.accordion-with-descriptions .subsection__items li a {
+    text-decoration: none;
+}
+
+.accordion-with-descriptions .subsection__link {
+    text-decoration: none;
+    text-align: left;
+    width: 100%;
+}
+
+.accordion-with-descriptions .js-hide {
+    display: none;
+}
+
+.accordion-with-descriptions .subsection__icon {
+    position: absolute;
+    left: 96%;
+    top: 1em;
+    height: 16px;
+    width: 16px;
+    background-image: url("/public/images/accordion-icons.png");
+    background: url("/public/images/accordion-icons.png"), linear-gradient(transparent, transparent);
+    background-repeat: no-repeat;
+    background-position: 0 -16px;
+}
+
+.accordion-with-descriptions .is-open .subsection__icon {
+    background-position: 0 0;
+}
+
+.accordion-with-descriptions .js .subsection__header:hover {
+    cursor: pointer;
+    background: #EDECEC;
+}
+
+.accordion-with-descriptions .car:after {
+    content: url(/public/images/icons/licence-icon-b-1x.png);
+    padding-right: 0.7em;
+    padding-left: 0.7em;
+    line-height: 1.3157894737;
+    padding-top: 3px;
+    position: absolute;
+    right: 0;
+}
+
+.accordion-with-descriptions .motorcycle:after {
+    content: url(/public/images/icons/licence-icon-a-1x.png);
+    padding-right: 0.7em;
+    padding-left: 0.7em;
+    line-height: 1.3157894737;
+    position: absolute;
+    right: 0;
+}
+
+.accordion-with-descriptions .moped:after {
+    content: url(/public/images/icons/licence-icon-am-1x.png);
+    padding-right: 0.7em;
+    padding-left: 0.7em;
+    line-height: 1.3157894737;
+    position: absolute;
+    right: 0;
+}
+
+.edit-button {
+    right: 10px;
+    position: absolute;
+    top: 0.7em;
+    font-weight: bold;
+}
+.status-complete {
+    left: 40%;
+    position: absolute;
+    color:#28A197;
+}
+.status-incomplete {
+    left: 40%;
+    position: absolute;
+    color:#F47738;
+}

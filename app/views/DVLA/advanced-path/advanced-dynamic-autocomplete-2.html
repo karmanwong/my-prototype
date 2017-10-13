@@ -1,0 +1,142 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Provide the vehicle model
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+<script src="/public/javascripts/Autocomplete/jquery-ui.min.js"></script>
+<script src="/public/javascripts/Autocomplete/jquery.select-to-autocomplete.js"></script>
+<script src="/public/javascripts/Autocomplete/jquery-auto-complete.js"></script>
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+
+<main id="content" role="main">
+    {% include "includes/phase_banner_alpha.html" %}
+    {% include "includes/buttons/back.html" %}
+
+    <div class="grid-row no-bottom">
+        <div class="column-two-thirds no-bottom">
+            <div class="error-summary" role="group" aria-labelledby="error-summary-heading" tabindex="-1" style="display: none">
+                <h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
+
+                <p>Please amend the following details:</p>
+                <ul class="error-summary-list">
+                    <li class="error-message a"><a href="#autoComplete">Provide a valid model</a></li>
+                </ul>
+            </div>
+
+            <h1 class="heading-large">Dynamic autocomplete (part 2)</h1>
+            <p>This page now only shows models based on the make you chose on the previous page (you can press down on the arrow keys to see the list of models)</p>
+            <form class="form">
+                <div class="form-group no-bottom">
+                    <fieldset>
+
+                        <div class="form-group" id="question1">
+                            <legend class="visuallyhidden">model</legend>
+                            <label class="form-label" for="autoComplete">
+                                Vehicle model
+                                <span class="error-message a" style="display: none;"><br>Provide a valid model</span>
+                            </label>
+                            <label for="dropdown" class="visuallyhidden">Choose a vehicle model</label>
+                            <!--The difference with this one is that we don't store the options inside this, instead we give it an id and let the jquery decide what options should be available-->
+                            <select name="model" class="form-control" placeholder="" id="dropdown" autocorrect="off" autocomplete="off" copy-attributes-to-text-field="false" style="width: 80%; padding: 4px;">
+                                <optgroup id="modelList" style="font-size:18px;">
+                                </optgroup>
+                            </select>
+                        </div>
+
+                    </fieldset>
+                    {{ button.input(id='continue', name='continue', class='button', type='button', value='Continue') }}
+                </div><!--  end .form-group  -->
+            </form>
+        </div><!--  end column-two-thirds  -->
+    </div><!--  end gridrow  -->
+</main>
+
+<script type="text/javascript">
+    
+    //this is what triggers any validation - it translates to 'on clicking something with the class 'button' perform 'validate' - we then set a function called 'validate later which runs a series of conditions for it to check
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+
+    // this section is a bit hacky but it works perfectly for the system remembering if it's come from a check your answers page - when we come back to this page we want it to hide the back button - it looks to see if the url has '?change=true' at the end of it - this is important so that it can be re-routed back to the check your answers page
+    var changing = location.search.split('change=')[1];
+    if (changing === 'true') {
+        $('.button-back').hide();
+    }
+    
+    //we now set variables defined by the options we selected on the previous page
+    var options = {
+        Audi: ['', 'A3 e-tron', 'Q7 e-tron'],
+        BMW: ['', '225xe', '330e', '530e', 'i3', 'i8'],
+        BYD: ['', 'e6'],
+        Chevrolet: ['', 'Volt'],
+        Citroen: ['', 'CZero', 'Berlingo'],
+        Ford: ['', 'Focus Electric'],
+        Hyundai: ['', 'IONIQ Electric', 'IONIQ PHEV'],
+        Kia: ['', 'Soul EV', 'Optima Saloon PHEV'],
+        Mahindra: ['', 'e20'],
+        Mercedes: ['', 'E350 e SE'],
+        'Mercedes-Benz': ['', 'B-Class Electric Drive', 'C350 e', 'S500 Hybrid'],
+        Mitsubishi: ['', 'iMiEV', 'Outlander', 'Outlander GX3h 4Work'],
+        MINI: ['', 'Countryman PHEV'],
+        Nissan: ['', 'e-NV200 5-seater', 'e-NV200 7-seater', 'LEAF', 'e-NV200 - cargo van'],
+        Peugeot: ['', 'iON', 'ePartner'],
+        Porsche: ['', 'Panamera S E-Hybrid'],
+        Renault: ['', 'Fluence', 'ZOE', 'Kangoo ZE'],
+        Smart: ['', 'fortwo electric drive', 'forfour electric drive'],
+        Tesla: ['', 'Model S', 'Model X'],
+        Toyota: ['', 'Mirai', 'Prius Plug-in'],
+        Vauxhall: ['', 'Ampera'],
+        Volkswagen: ['', 'e-Golf', 'e-up!', 'Golf GTE', 'Passat GTE'],
+        Volvo: ['', 'V60 D5 Twin Engine', 'V60 D6 Twin Engine', 'XC90 T8 Twin Engine', 'XC90 T8 Twin Engine Momentum - 2017 model year only'],
+        'BD Otomotiv': ['', 'eTraffic', 'eDucato'],
+        'Daimler Mercedes-Benz': ['', 'Vito E-Cell'],
+        'Smith Electric': ['', 'Smith Edison'],
+    };
+    
+    //we need to set a variable that calls upon the value we membered from the previous page
+    var list = options[member.questions.make];
+    
+    //we then tell it to only display the options dependant on the value from the previous memebered value
+    for(var i = 0; i < list.length; ++i) {
+        $("#modelList").append('<option value="' + list[i] + '">' + list[i] + '</option>');
+    }
+
+    //this sets a function of 'validate' which runs through all the conditions set within it before either throwing up an error or letting it pass 
+    function validate() {
+        var validInput = true;
+
+        //we define what happens when the value is undefined and show an error 
+        var model = $('#dropdown :selected').val();
+        if ((model ==  '') || (model == undefined)) {
+            $('#question1').addClass('form-group-error error');
+            $('.error-message.a').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            $('.error-summary').focus();
+            validInput = false;
+        }
+        
+        //if changing is true and it's a valid input we tell it to member that value and go back to the check your answers page. We can do this now because we've obtained both values which are dependant on each other
+        if ((validInput) && (changing === "true")) {
+            member.questions.model = model;
+            go('/DVLA/check-your-answers');
+        //otherwise if the valid input is true we tell it to go to the next page
+        } else if (validInput) {
+            member.questions.model = model;
+            go('/DVLA/advanced-path/advanced-dynamic-radio-1');
+        }
+    }
+
+</script>
+
+{% endblock %}

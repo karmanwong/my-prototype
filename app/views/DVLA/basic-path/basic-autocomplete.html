@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Basic autocomplete
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+<!--any page with an auto complete needs these 3 lines of script (below) added to it - it essentially restyles a dropdown into an autocomplete input. And, quite cleverly, when javascript is turned off reverts back to a drop down.-->
+<script src="/public/javascripts/Autocomplete/jquery-ui.min.js"></script>
+<script src="/public/javascripts/Autocomplete/jquery.select-to-autocomplete.js"></script>
+<script src="/public/javascripts/Autocomplete/jquery-auto-complete.js"></script>
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+
+<main id="content" role="main">
+    {% include "includes/phase_banner_alpha.html" %}
+    {% include "includes/buttons/back.html" %}
+
+    <div class="grid-row no-bottom">
+        <div class="column-two-thirds no-bottom">
+            <div class="error-summary" role="group" aria-labelledby="error-summary-heading" tabindex="-1" style="display: none">
+                <h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
+
+                <p>Please amend the following details:</p>
+                <ul class="error-summary-list">
+                    <li class="error-message a"><a href="#autoComplete">Provide a valid team member's name</a></li>
+                </ul>
+            </div>
+
+            <h1 class="heading-large">Basic autocomplete</h1>
+            <form class="form">
+                <div class="form-group no-bottom">
+                    <fieldset>
+                        <!--it's important to always set the id of the container div to 'q----' here you can see I've named it 'question1' this is important for adding the error validation class to it later on-->
+                        <div class="form-group" id="question1">
+                            <legend class="visuallyhidden">Basic autocomplete</legend>
+                            <label class="form-label" for="autoComplete">
+                                Interaction design team member's name
+                                <span class="form-hint">For example, David Hannify</span>
+                                <span class="error-message a" style="display: none;">Provide a valid team member's name</span>
+                            </label>
+                            <label for="dropdown" class="visuallyhidden">Choose an interaction designer's name</label>
+                            <!--This is where we define what 'options' are stored within the autocomplete-->
+                            <select name="autoComplete" id="dropdown" class="form-control autoComplete" placeholder="" autocorrect="off" autocomplete="off" copy-attributes-to-text-field="false" style="padding: 4px;">
+                                <optgroup style="font-size:18px;">
+                                    <!--member will remember the value so it's important that we set a value the same as how it's displayed-->
+                                    <option value="" selected="selected">Team member</option>
+                                    <option value="Dan Butterworth">Dan Butterworth</option>
+                                    <option value="David Hannify">David Hannify</option>
+                                    <option value="Wayne Esmonde">Wayne Esmonde</option>
+                                    <option value="Matthew Davies">Matthew Davies</option>
+                                    <option value="Nicole Cluckie">Nicole Cluckie</option>
+                                    <option value="Alun Beynon">Alun Beynon</option>
+                                    <option value="Carl Harry">Carl Harry</option>
+                                    <option value="Jay Price">Jay Price</option>
+                                    <option value="Dr Liam Betsworth">Dr Liam Betsworth</option>
+                                    <option value="Karman Wong">Karman Wong</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                    </fieldset>
+                    {{ button.input(id='continue', name='continue', class='button', type='button', value='Continue') }}
+                </div><!--  end .form-group  -->
+            </form>
+        </div><!--  end column-two-thirds  -->
+    </div><!--  end gridrow  -->
+</main>
+
+<script type="text/javascript">
+    
+    //this is what triggers any validation - it translates to 'on clicking something with the class 'button' perform 'validate' - we then set a function called 'validate later which runs a series of conditions for it to check
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+
+    // this section is a bit hacky but it works perfectly for the system remembering if it's come from a check your answers page - when we come back to this page we want it to hide the back button - it looks to see if the url has '?change=true' at the end of it - this is important so that it can be re-routed back to the check your answers page
+    var changing = location.search.split('change=')[1];
+    if (changing === 'true') {
+        $('.button-back').hide();
+    }
+
+    function validate() {
+        //Now we set the default variable of valid input as true, this is important because we need to refer to it as false when an error occurs.
+        var validInput = true;
+
+        //here we're setting a variable called 'autoComplete' which is defined by the id (#) of autoComplete and which of the options is 'selected' 
+        var teamMember = $('.autoComplete').find(':selected').val();
+        
+        //Now we're planning on what happens when the variable of autoComplete is blank. When it is we tell it to throw up the error message and error class.
+        if (teamMember == '') {
+            $('#question1').addClass('form-group-error error');
+            $('.error-message.a').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            $('.error-summary').focus();
+            validInput = false;
+        } 
+        
+        //when it's a valid input and changing is true we reroute it back to check your answers
+        if ((validInput) && (changing === "true")) {
+            member.questions.teamMember = teamMember;
+            go('/DVLA/check-your-answers');
+            
+        //when it has a valid input we get it to member and routee to the next page
+        } else if (validInput) {
+            member.questions.teamMember = teamMember;
+            go('/DVLA/basic-path/basic-multiple-choice-radio');
+        }
+    }
+</script>
+
+{% endblock %}

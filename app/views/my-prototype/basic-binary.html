@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Do you feel like having a Subway today?
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+
+<main id="content" role="main">
+    {% include "includes/phase_banner_alpha.html" %}
+    {% include "includes/buttons/back.html" %}
+
+    <div class="grid-row no-bottom">
+        <div class="column-two-thirds no-bottom">
+            <div class="error-summary" role="group" aria-labelledby="error-summary-heading" tabindex="-1" style="display: none">
+                <h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
+
+                <p>Please amend the following details:</p>
+                <ul class="error-summary-list">
+                    <li class="error-message a"><a href="#radio1">Select an option</a></li>
+                </ul>
+            </div>
+
+            <h1 class="heading-large">Do you feel like having a Subway today?</h1>
+
+            <form class="form">
+                <!--it's important to always set the id of the container div to 'q----' here you can see I've named it 'question1' but you could equally name it 'qInput' this is important for adding the error validation class to it later on-->
+                <div class="form-group" id="question1">
+                    <span class="error-message a">
+                        Select an option
+                    </span>
+                    <fieldset class="inline">
+                        <!-- this legend is for accessibility purposes and helps screen reader users to understand the context of the question - more often than not it just repeats the initial question-->
+                        <legend class="visually-hidden">Do you feel like having a Subway today?</legend>
+
+                        <div class="multiple-choice">
+                            <!--values should be set the same as the label so that it's easier to member it later on-->
+                            <input id="radio1" type="radio" name="radioSelect" value="Yes">
+                            <label class="block-label" for="radio1">Yes</label>
+                        </div>
+                        <div class="multiple-choice">
+                            <input id="radio2" type="radio" name="radioSelect" value="No">
+                            <label class="block-label" for="radio2">No</label>
+                        </div>
+
+                    </fieldset>
+                </div>
+                <!--We have an include called 'button' which can be called here using the template language nunjucks - changing the value will change the wording in the button - we then use jquery to define what the button does-->
+                {{ button.input(id='continue', name='continue', class='button', type='button', value='Continue') }}
+            </form>
+        </div><!--  end column-two-thirds  -->
+
+    </div><!--  end gridrow  -->
+</main>
+
+<script type="text/javascript">
+
+    //this is what triggers any validation - it translates to 'on clicking something with the class 'button' perform 'validate' - we then set a function called 'validate later which runs a series of conditions for it to check
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+
+    // this section is a bit hacky but it works perfectly for the system remembering if it's come from a check your answers page - when we come back to this page we want it to hide the back button - it looks to see if the url has '?change=true' at the end of it - this is important so that it can be re-routed back to the check your answers page
+    var changing = location.search.split('change=')[1];
+    if (changing === 'true') {
+        $('.button-back').hide();
+    }
+
+    //this sets a function of 'validate' which runs through all the conditions set within it before either throwing up an error or letting it pass
+    function validate() {
+        //So, firstly we need to get our jquery to find the 2 values (Basic and Advanced) so we first set a variable of 'value' which we'll need for validation and member
+        var value = $('input[name=radioSelect]:checked').val();
+
+        //now we create a place to store the data that we member - we only do this once per 'thing' (So if we're membering stuff about a customer or a vehicle we can store different things in different categories) - Here we define an area called 'questions' to store the data for the questions we're going to ask
+        if (member.questions === undefined) {
+            member.questions = {};
+        }
+
+        //now we check to see if changing is true and the value is 'Basic'. This then tells the page to member the new answer but reroute to the check your answers page.
+        if (changing === 'true' && value === 'Yes') {
+            go('/my-prototype/check-your-answers');
+            delete member.questions.emailChoice;
+            delete member.questions.email;
+            member.questions.food = value;  
+        }
+
+        //Same as above but this time we''re checking that changing is true and the value is 'Advanced'. This then tells the page to member the new answer but reroute to the check your answers page.
+        else if (changing === 'true' && value === 'No') {
+            go('/my-prototype/check-your-answers');
+            member.questions.food = value;  
+        }
+
+        //the line below is first checking to see if there is a value at all - we do this by seeing if it's blank or undefined - if it's blank we tell it to show the error class and the error message
+        else if  ((value === '') || (value === undefined)) {
+            $('#question1').addClass('form-group-error error');
+            $('.error-message.a').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            $('.error-summary').focus();
+
+            //the line below is checking to see if the value is absolutely equal to (===) Basic. Basic is the value of the Basic <input> in the html above.   
+        } else if (value === 'Yes') {
+            //you can tell it that if Basic is true to then go to the location you define - this is basic routing.
+            go('/my-prototype/basic-input');
+            //we also want it to member the value we defined above - it will recognise 'value' as whichever button has been selected
+            member.questions.food = value;
+
+            //after setting an else if statement for the value of 'Basic' we then do another to define the other value of 'Advanced'
+        } else if (value === 'No') {
+            go('/my-prototype/basic-multiple-choice-radio');
+            member.questions.food = value;
+        }
+    }
+
+</script>
+
+{% endblock %}

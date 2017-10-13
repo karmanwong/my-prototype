@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Confirm your answers before submitting your application
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_beta.html" %}
+    {% include "includes/buttons/back.html" %}
+    <div class="grid-row">
+        <div class="column-full">
+            <h1 class="heading-large">Confirm your answers</h1>
+            <p>If you change a response, you may have to re-answer some questions</p>
+
+            <h2 class="heading-medium margin-top-2">Questions answered</h2>
+            <div id="yes-route" class="visuallyhidden">
+                <ul class="list-summary margin-bottom-2">
+                   
+                        
+                    <li class="list-summary-item">
+                        <span>Do you feel like having a Subway today?</span>
+                        <span><strong><span class="basic-binary"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/my-prototype/basic-binary?change=true">Change <span class="visuallyhidden">the answer to the question "Do you feel like having a Subway today?"</span></a></span>
+                    </li>
+                    <li class="list-summary-item">
+                        <span>What sub would you like?</span>
+                        <span><strong><span class="basic-input"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/my-prototype/basic-input?change=true">Change <span class="visuallyhidden">meatball</span></a></span>
+                    </li>
+                    <li class="list-summary-item">
+                        <span>Do you want an email receipt?</span>
+                        <span><strong><span id="email-choice" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/my-prototype/advanced-radio-disclosure?change=true">Change <span class="visuallyhidden">email receipt choice</span></a></span>
+                    </li>   
+
+                    <li class="list-summary-item email">
+                        <span>Email address</span>
+                        <span><strong><span id="email-address" style="width: 100%;"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/my-prototype/advanced-radio-disclosure?change=true">Change <span class="visuallyhidden">email address</span></a></span>
+                    </li> 
+                </ul> 
+            </div>
+            <div id="no-route" class="visuallyhidden">
+                <ul class="list-summary margin-bottom-2">
+
+
+                    <li class="list-summary-item">
+                        <span>Do you feel like having a Subway today?</span>
+                        <span><strong><span class="basic-binary"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/my-prototype/basic-binary?change=true">Change <span class="visuallyhidden">the answer to the question "Do you feel like having a Subway today?"</span></a></span>
+                    </li>
+                    <li class="list-summary-item">
+                        <span>What would you like to eat?</span>
+                        <span><strong><span class="basic-multiple-choice-radio"></span></strong></span>
+                        <span class="list-summary-item-right"><a class="button-change" href="/my-prototype/basic-multiple-choice-radio?change=true">Change <span class="visuallyhidden">What would you like to eat?</span></a></span>
+                    </li>
+                </ul> 
+            </div>
+            {{ button.input(id='continue', name='continue', class='button', type='button', value='Confirm') }}
+        </div>
+    </div>
+</main>
+
+<script type="text/javascript">
+if (member.questions.food === 'Yes')
+{$('#yes-route').removeClass('visuallyhidden');
+ $('#email-choice').html(member.questions.emailChoice);
+
+ //if an email address wasn't entered we remove this table row
+ if  (!member.questions.email) {
+     $('.email').remove();
+ }
+
+ $('#email-address').html(member.questions.email);   
+ 
+    // Basic binary
+    $('.basic-binary').html(member.questions.food);
+
+    // Basic input
+    $('.basic-input').html(member.questions.input1);
+    }
+    
+    else if  (member.questions.food === 'No')
+    {$('#no-route').removeClass('visuallyhidden');
+     
+     $('.basic-binary').html(member.questions.food);
+    
+    // Basic multiple choice radio
+    $('.basic-multiple-choice-radio').html(member.questions.enjoyMost);
+    
+    }
+    
+    //we define the function of a button to trigger 'next'
+    $(".button").click(function(){
+        // Enter function name here
+        next();
+    });
+
+    //then we define the function of next to route to the next page
+    function next() {        
+        go('/my-prototype/success');
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,155 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Dynamic radio buttons (part 2)
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_alpha.html" %}
+    {% include "includes/buttons/back.html" %}
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <div class="error-summary" role="group" aria-labelledby="error-summary-heading" tabindex="-1" style="display: none">
+                <h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
+
+                <p>Please amend the following details:</p>
+                <ul class="error-summary-list">
+                    <li class="qtaxClass error-message"><a href="#taxClass-1">Select an option</a></li>
+                </ul>
+            </div>
+            
+            <h1 class="heading-large">Dynamic radio buttons (part 2)</h1>
+
+            <form class="form">
+                <h2 class="heading-medium">What tax class is your vehicle?</h2>
+
+                <div class="form-group" id="qtaxClass">
+
+                    <span class="taxClass error-message">
+                        Select an option
+                    </span>
+
+                    <fieldset>
+
+                        <legend class="visually-hidden">What tax class is your vehicle?</legend>
+
+                        <!--Because there were 3 different options on the previous page we want to show 3 different options based on your selection on the previous page - here we put them inside a container div, give them a class and hide them all until called upon-->
+                        <div class="petrolTax" style="display: none;">
+                            <div class="multiple-choice">
+                                <input id="taxClass-1" type="radio" name="taxClass" value="1">
+                                <label class="block-label" for="taxClass-1" id="taxClass-1-label">Petrol1</label>
+                            </div>
+                            <div class="multiple-choice">
+                                <input id="taxClass-2" type="radio" name="taxClass" value="2">
+                                <label class="block-label" for="taxClass-2" id="taxClass-2-label">Petrol2</label>
+                            </div>
+                            <div class="multiple-choice">
+                                <input id="taxClass-3" type="radio" name="taxClass" value="3">
+                                <label class="block-label" for="taxClass-3" id="taxClass-3-label">Petrol3</label>
+                            </div>
+                        </div>
+                        
+                        <div class="dieselTax" style="display: none;">
+                            <div class="multiple-choice">
+                                <input id="taxClass-1" type="radio" name="taxClass" value="1">
+                                <label class="block-label" for="taxClass-1" id="taxClass-1-label">Diesel1</label>
+                            </div>
+                            <div class="multiple-choice">
+                                <input id="taxClass-2" type="radio" name="taxClass" value="2">
+                                <label class="block-label" for="taxClass-2" id="taxClass-2-label">Diesel2</label>
+                            </div>
+                            <div class="multiple-choice">
+                                <input id="taxClass-3" type="radio" name="taxClass" value="3">
+                                <label class="block-label" for="taxClass-3" id="taxClass-3-label">Diesel3</label>
+                            </div>
+                        </div>
+                        
+                        <div class="altTax" style="display: none;">
+                            <div class="multiple-choice">
+                                <input id="taxClass-1" type="radio" name="taxClass" value="1">
+                                <label class="block-label" for="taxClass-1" id="taxClass-1-label">Alt1</label>
+                            </div>
+                            <div class="multiple-choice">
+                                <input id="taxClass-2" type="radio" name="taxClass" value="2">
+                                <label class="block-label" for="taxClass-2" id="taxClass-2-label">Alt2</label>
+                            </div>
+                            <div class="multiple-choice">
+                                <input id="taxClass-3" type="radio" name="taxClass" value="3">
+                                <label class="block-label" for="taxClass-3" id="taxClass-3-label">Alt3</label>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </div>
+                {{ button.input(id='continue', name='continue', class='button', type='button', value='Continue') }}
+            </form>
+        </div>
+    </div>
+</main>
+
+<script type="text/javascript">
+
+    //this is what triggers any validation - it translates to 'on clicking something with the class 'button' perform 'validate' - we then set a function called 'validate later which runs a series of conditions for it to check
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+
+    // this section is a bit hacky but it works perfectly for the system remembering if it's come from a check your answers page - when we come back to this page we want it to hide the back button - it looks to see if the url has '?change=true' at the end of it - this is important so that it can be re-routed back to the check your answers page
+    var changing = location.search.split('change=')[1];
+    if (changing === 'true') {
+        $('.button-back').hide();
+    }
+    
+    //we need to set a variable that calls upon the value we membered from the previous page
+    var list = member.questions.fuelType;
+    
+    //now we set up if statements to only show the divs which contain the options we want to show
+    if  (list === 'Petrol'); {
+        $('.petrolTax').show(); 
+        $('.dieselTax').hide(); 
+        $('.altTax').hide(); 
+    } 
+    if (list === 'Diesel') {
+        $('.dieselTax').show();
+        $('.petrolTax').hide(); 
+        $('.altTax').hide(); 
+    } 
+    if (list === 'Alternative fuel (electric, hybrid or gas)') {
+        $('.altTax').show(); 
+        $('.dieselTax').hide();
+        $('.petrolTax').hide(); 
+    }
+    //this sets a function of 'validate' which runs through all the conditions set within it before either throwing up an error or letting it pass
+    function validate() {
+
+        //So, firstly we need to get our jquery to find the values of the radio button options
+        var value = $('input[name=taxClass]:checked').val();
+
+        //now we check to see if changing is true and the value is not (!==) undefined. This then tells the page to member the new answer but reroute to the check your answers page.
+        if (changing == "true" && (value !== undefined)) {
+            member.questions.taxClass = value;
+            go('/DVLA/check-your-answers');
+            //then we do the same but without checking the change variable to that it routes to the next page
+        } else if (value !== undefined) {
+            member.questions.taxClass = value;
+            go('/DVLA/advanced-path/advanced-tabs');
+            //once you've covered off all non-error conditions above the only thing left to do is to throw up an error. It now adds the error class and displays the error message.
+        } else {
+            $('#qtaxClass').addClass('form-group-error');
+            $('.taxClass.error-message').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            $('.error-summary').focus();
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,358 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+Multiple choice checkboxes with disclosures
+{% endblock %}
+
+{% block head %}
+{% include "includes/head.html" %}
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+{% import "templates/button.html" as button %}
+
+{% block content %}
+<main id="content" role="main">
+    {% include "includes/phase_banner_alpha.html" %}
+    {% include "includes/buttons/back.html" %}
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <div class="error-summary" role="group" aria-labelledby="error-summary-heading" tabindex="-1" style="display: none">
+                <h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
+
+                <p>Please amend the following details:</p>
+                <ul class="error-summary-list">
+                    <li class="error-message a"><a href="#textChoice">Select a contact method</a></li>
+
+                    <li class="text-error error-message"><a href="#textNum">Provide a valid mobile number</a></li>
+
+                    <li class="email-error error-message"><a href="#emailAdd">Provide a valid email address</a></li>
+
+                    <li class="address1 error-message"><a href="#address1">Provide your house number/name and street</a></li>
+                    
+                    <li class="posttown error-message"><a href="#posttown">Provide your post town or city</a></li>
+
+                    <li class="postcode error-message"><a href="#postcode">Provide your postcode</a></li>
+                </ul>
+            </div>
+            
+            <h1 class="heading-large">Multiple choice checkboxes with disclosures</h1>
+
+            <form class="form">
+
+                <h2 class="heading-medium">
+                    How do you want to be updated with the progress of your application?
+                </h2>
+
+                <div id="question" class="form-group">
+                    <span class="error-message a">
+                        Select a contact method
+                    </span>
+                    <fieldset>
+
+                        <legend class="visually-hidden">How do you want to be updated with the progress of your application?</legend>
+                        
+                        <div class="multiple-choice">
+                            <input id="textChoice" name="contactChoice" type="checkbox" value="Text message">
+                            <label for="textChoice">By text message (SMS)</label>
+                        </div>
+                        
+                        <div id="textNumber" class="panel panel-border-narrow" style="display: none;">
+
+                            <div class="form-group" id="qtextNum">
+                                <label class="form-label" for="textNum">Mobile number</label>
+                                <span class="text-error error-message">
+                                    Provide a valid mobile number<br>
+                                </span>
+                                <input class="form-control" id="textNum" name="textNum" type="text" value="">
+                            </div>
+                        </div>
+                        
+                        <div class="multiple-choice">
+                            <input id="emailChoice" name="contactChoice" type="checkbox" value="Email">
+                            <label for="emailChoice">By email</label>
+                        </div>
+
+                        <div id="emailAddress" class="panel panel-border-narrow" style="display: none;">
+
+                            <div class="form-group" id="qemailAdd">
+                                <label class="form-label" for="emailAdd">Email address</label>
+                                <span class="email-error error-message">
+                                    Provide a valid email address<br>
+                                </span>
+                                <input class="form-control" id="emailAdd" name="emailAdd" type="text" value="">
+                            </div>
+                        </div>
+                        
+                        <div class="multiple-choice">
+                            <input id="postChoice" name="contactChoice" type="checkbox" value="Post">
+                            <label for="postChoice">By post</label>
+                        </div>
+
+                        <div id="address" class="panel panel-border-narrow" style="display: none;">
+
+                            <div class="form-group" id="qaddress">
+                                <label class="form-label" for="address1">
+                                    Building and street
+                                    <span class="form-hint"></span>
+                                    <span class="address1 error-message">
+                                        Provide your house number/name and street
+                                    </span>
+                                </label>
+                                <input spellcheck="false" class="form-control" id="address1" name="address1" type="text" value="">
+                            </div>
+
+                            <div class="form-group" id="qaddress2">
+                                <label class="visuallyhidden form-label" for="address2">
+                                    Address line 2
+                                </label>
+                                <input spellcheck="false" class="form-control" id="address2" name="address2" type="text" value="">
+                            </div>
+
+                            <div class="form-group" id="qposttown">
+                                <label class="form-label" for="posttown">
+                                    Town or city
+                                    <span class="form-hint"></span>
+                                    <span class="posttown error-message">
+                                        Provide your post town or city
+                                    </span>
+                                </label>
+                                <input spellcheck="false" class="form-control form-control-1-3" id="posttown" name="posttown" type="text" value="">
+                            </div>
+
+                            <div class="form-group" id="qpostcode">
+                                <label class="form-label" for="postcode">
+                                    Postcode
+                                    <span class="form-hint"></span>
+                                    <span class="postcode error-message">
+                                        Provide your postcode
+                                    </span>
+<!--
+                                    <span class="postcode format error-message">
+                                        Provide correct postcode format
+                                    </span>
+-->
+                                </label>
+                                <input spellcheck="false" class="form-control form-control-1-4" id="postcode" name="postcode" type="text" value="">
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </div>
+                {{ button.input(id='continue', name='continue', class='button', type='button', value='Continue') }}
+            </form>
+        </div>
+    </div>
+</main>
+
+<script type="text/javascript">
+    $(".button").click(function(){
+        // Enter function name here
+        validate();
+    });
+    
+    if (member.questions === undefined) {
+        member.questions = {};
+    }
+
+    // Check if user has been sent back from summary page
+    var changing = location.search.split('change=')[1];
+    if (changing === 'true') {
+        $('.button-back').hide();
+        if (member.questions.contactChoice.text) {
+            $("#textChoice").click();
+        }
+        if (member.questions.contactChoice.email) {
+            $("#emailChoice").click();
+        }
+        if (member.questions.contactChoice.post) {
+            $("#postChoice").click();
+        }
+        if (member.questions.contactChoice.email){
+            $('input[name=emailAdd]').val(member.questions.contactChoice.email);
+        }
+    }
+    
+    if (member.questions.contactChoice){
+        $('input[name=textNum]').val(member.questions.contactChoice.text);        
+    }
+    
+    if (member.questions.email && changing !== 'true'){
+        $('input[name=emailAdd]').val(member.questions.email);
+    }
+    
+    if (member.address){
+        $('input[name=address1]').val(member.address.Line1);
+        $('input[name=address2]').val(member.address.Line2);
+        $('input[name=posttown]').val(member.address.City);
+        $('input[name=postcode]').val(member.address.PostalCode);
+    }
+
+    var address = {};
+    
+    $(document).ready(checkSelected());
+    
+    $("input[name='contactChoice']").change(function() {
+        $('#question').removeClass('form-group-error error');
+        $('#address').removeClass('form-group-error error');
+        $('#qtextNum').removeClass('form-group-error error');
+        $('#qemailAdd').removeClass('form-group-error error');
+        $('.address1.error-message').hide();
+        $('#qaddress').removeClass('form-group-error error');
+        $('.posttown.error-message').hide();
+        $('#qposttown').removeClass('form-group-error error');
+        $('.postcode.error-message').hide();
+        $('#qpostcode').removeClass('form-group-error error');
+        $('#question').removeClass('form-group-error error');
+        $('#qtextNum').removeClass('form-group-error error');
+        $('#qemailAdd').removeClass('form-group-error error');
+        $('.error-message.a').hide();
+        $('.text-error.error-message').hide();
+        $('.email-error.error-message').hide();
+        $('.error-summary').hide();
+
+        checkSelected();
+    });
+
+    function checkSelected() {
+        if ($('input[id=textChoice]:checked').val() === 'Text message') {
+            $('#textNumber').show();
+        } else {
+            $('#textNumber').hide();
+        }
+
+        if ($('input[id=emailChoice]:checked').val() === 'Email') {
+            $('#emailAddress').show();
+        } else {
+            $('#emailAddress').hide();
+        } 
+        
+        if  ($('input[id=postChoice]:checked').val() === 'Post') {
+            $('#address').show();
+        } else {
+            $('#address').hide();
+        }
+    }
+    
+    function validate() {
+        // Hide before rechecking validation
+        $('.address1.error-message').hide();
+        $('#qaddress').removeClass('form-group-error error');
+        $('.posttown.error-message').hide();
+        $('#qposttown').removeClass('form-group-error error');
+        $('.postcode.error-message').hide();
+        $('#qpostcode').removeClass('form-group-error error');
+        $('#question').removeClass('form-group-error error');
+        $('#qtextNum').removeClass('form-group-error error');
+        $('#qemailAdd').removeClass('form-group-error error');
+        $('.error-message.a').hide();
+        $('.text-error.error-message').hide();
+        $('.email-error.error-message').hide();
+        
+        var value = $('input[name=contactChoice]:checked');
+        var textChoice = $('input[name=textNum]').val();
+        var emailChoice = $('input[name=emailAdd]').val();
+        
+        var validInput = true;
+        
+        var post = false;
+        var text = false;
+        var email = false;
+        var emailFormat = new RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
+        
+        if ($('input[id=postChoice]:checked').length === 1) {
+            post = true;
+        }
+        if ($('input[id=textChoice]:checked').length === 1) {
+            text = true;
+        }
+        if ($('input[id=emailChoice]:checked').length === 1) {
+            email = true;
+        }
+        
+        member.questions.contactChoice = {};
+
+        if (post || text || email) {
+            if (post) {
+                var address1 = $('input[name=address1]').val();
+                var address2 = $('input[name=address2]').val();
+                if ((address1 == '') || (address1 == undefined)) {
+                    $('#qaddress').addClass('form-group-error error');
+                    $('.address1.error-message').show();
+                    $('.error-summary').show();
+                    $('body').scrollTop(0);
+                    $('.error-summary').focus();
+                    validInput = false;
+                }
+
+                var posttown = $('input[name=posttown]').val();
+                if ((posttown == '') || (posttown == undefined)) {
+                    $('#qposttown').addClass('form-group-error error');
+                    $('.posttown.error-message').show();
+                    $('.error-summary').show();
+                    $('body').scrollTop(0);
+                    $('.error-summary').focus();
+                    validInput = false;
+                }
+
+                var postcode = $('input[name=postcode]').val();
+
+                if ((postcode == '') || (postcode == undefined)) {
+                    $('#qpostcode').addClass('form-group-error error');
+                    $('.postcode.error-message').show();
+                    $('.error-summary').show();
+                    $('body').scrollTop(0);
+                    $('.error-summary').focus();
+                    validInput = false;
+                } 
+                
+                if (validInput) {
+                    var address = address1 + "<br>";
+                    if (address2 && address2.length>0 )
+                        address += address2+"<br>";
+                    address += posttown+"<br>";
+                    address += postcode;
+
+                    member.questions.contactChoice.post = address; 
+                }
+            }
+            if (text) {
+                if (textChoice.length > 0) {
+                    member.questions.contactChoice.text = textChoice;
+                } else {
+                    $('#qtextNum').addClass('form-group-error error');
+                    $('.text-error.error-message').show();
+                    $('.error-summary').show();
+                    $('body').scrollTop(0);
+                    $('.error-summary').focus();
+                   validInput = false;
+                }
+            } 
+            if (email) {
+                if (emailChoice.length > 0 && emailFormat.test(emailChoice)) {
+                    member.questions.contactChoice.email = emailChoice;
+                } else {
+                    $('#qemailAdd').addClass('form-group-error error');
+                    $('.email-error.error-message').show();
+                    $('.error-summary').show();
+                    $('body').scrollTop(0);
+                    $('.error-summary').focus();
+                    validInput = false;
+                }  
+            } 
+            
+            if (validInput && changing == "true") {
+                go('/DVLA/check-your-answers');
+            } else if (validInput) {
+                go('/DVLA/check-your-answers');
+            }
+        } else {
+            $('#question').addClass('form-group-error error');
+            $('.error-message.a').show();
+            $('.error-summary').show();
+            $('body').scrollTop(0);
+            $('.error-summary').focus();
+        }
+    }
+</script>
+{% endblock %}
